@@ -13,7 +13,8 @@ import time
 class TestPumpControl(unittest.TestCase):
     def test_enable_pump_for_duration(self):
         start = time.time()
-        pump_control.enable_pump_for_duration(2)
+        pump = pump_control.Pump()  
+        pump.enable_pump_for_duration(2)
         duration = time.time() - start
         self.assertTrue(1.9 < duration < 2.1)
         
