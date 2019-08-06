@@ -23,6 +23,12 @@ class TestPumpControl(unittest.TestCase):
         pump.start_pump()
         self.assertEqual(1, pump.led.value)
         pump.stop_pump()
+
+    def test_stop_pump(self):
+        pump = pump_control.Pump()  
+        pump.start_pump()
+        pump.stop_pump()
+        self.assertEqual(0, pump.led.value)
         
 if __name__ == '__main__':
     unittest.main()
