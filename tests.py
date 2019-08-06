@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# pylint: disable=C0111
 """
 Created on Tue Aug  6 15:38:24 2019
 
@@ -30,6 +31,6 @@ class TestPumpControl(unittest.TestCase):
         pump.start_pump()
         pump.stop_pump()
         self.assertEqual(0, pump.pump.value)
-    
+
 if __name__ == '__main__':
     unittest.main()
