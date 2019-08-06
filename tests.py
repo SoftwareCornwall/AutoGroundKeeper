@@ -18,5 +18,11 @@ class TestPumpControl(unittest.TestCase):
         duration = time.time() - start
         self.assertTrue(1.9 < duration < 2.1)
         
+    def test_start_pump(self):
+        pump = pump_control.Pump()  
+        pump.start_pump()
+        self.assertEqual(1, pump.led.value)
+        pump.stop_pump()
+        
 if __name__ == '__main__':
     unittest.main()
