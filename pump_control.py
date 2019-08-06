@@ -11,14 +11,14 @@ import gpiozero
 
 class Pump:
     def __init__(self):
-        self.led = gpiozero.LED(17)
+        self.pump = gpiozero.LED(17)
     
 
     def start_pump(self):
-        self.led.on()
+        self.pump.on()
 
     def stop_pump(self):
-        self.led.off()
+        self.pump.off()
         
     def enable_pump_for_duration(self, duration):
         self.start_pump()

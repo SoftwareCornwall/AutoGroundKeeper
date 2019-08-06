@@ -21,14 +21,14 @@ class TestPumpControl(unittest.TestCase):
     def test_start_pump(self):
         pump = pump_control.Pump()  
         pump.start_pump()
-        self.assertEqual(1, pump.led.value)
+        self.assertEqual(1, pump.pump.value)
         pump.stop_pump()
 
     def test_stop_pump(self):
         pump = pump_control.Pump()  
         pump.start_pump()
         pump.stop_pump()
-        self.assertEqual(0, pump.led.value)
+        self.assertEqual(0, pump.pump.value)
         
 if __name__ == '__main__':
     unittest.main()
