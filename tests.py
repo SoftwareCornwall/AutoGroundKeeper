@@ -12,6 +12,7 @@ import time
 
 import pump_control
 
+
 class TestPumpControl(unittest.TestCase):
     def test_enable_pump_for_duration(self):
         start = time.time()
@@ -31,6 +32,7 @@ class TestPumpControl(unittest.TestCase):
         pump.start_pump()
         pump.stop_pump()
         self.assertEqual(0, pump.pump.value)
+
 
 if __name__ == '__main__':
     unittest.main()
