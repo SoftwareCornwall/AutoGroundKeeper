@@ -56,15 +56,16 @@ class TestPumpControl(unittest.TestCase):
         pump.stop_pump()
         self.assertEqual(0, pump.pump.value)
 
+
 class TestSchedule(unittest.TestCase):
     def test_wait_watering_gap_sleep_for_minimum_watering_frequency(self):
         mock_sleep = MockSleep()
         schedule_control.time.sleep = mock_sleep.sleep
         schedule = schedule_control.Schedule()
-        
         schedule.set_minimium_watering_frequency(3*3600)
         schedule.wait_watering_gap()
         self.assertEqual(3*3600, sum(mock_sleep.sleep_history))
+
 
 if __name__ == '__main__':
     unittest.main()
