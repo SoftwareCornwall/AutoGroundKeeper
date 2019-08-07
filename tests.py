@@ -12,9 +12,11 @@ import time
 
 import pump_control
 
+
 class MockSleep():
     def __init__(self):
         self.sleep_history = []
+
     def sleep(self, duration):
         self.sleep_history.append(duration)
 
