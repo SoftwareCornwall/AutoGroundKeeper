@@ -13,6 +13,7 @@ import time
 
 import pump_control
 import schedule_control
+import interpreter
 
 
 class MockSleep():
@@ -99,6 +100,10 @@ class TestSchedule(unittest.TestCase):
         schedule._water()
         self.assertFalse(schedule._should_water())
 
+class TestMoistureSensorInOut(unittest.TestCase):
+    def test_data_is_converted_correctly(self):
+        mockData = [0b00000100,0b11101011]
+        self.assertEqual(0b0011101011, interpreter.MoistureInterpreter.ConvertData(mockData))
 
 if __name__ == '__main__':
     unittest.main()
