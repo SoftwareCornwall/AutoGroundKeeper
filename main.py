@@ -14,6 +14,5 @@ def main():
 
 
 if __name__ == '__main__':
-    interpreter.MoistureInterpreter().ReadFromChip()
-    #main()
+    main()
     
