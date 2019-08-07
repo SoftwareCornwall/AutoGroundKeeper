@@ -63,9 +63,8 @@ class TestSchedule(unittest.TestCase):
         schedule_control.time.sleep = mock_sleep.sleep
         schedule = schedule_control.Schedule()
         schedule.set_water_dispense_amount(2)
-        schedule.set_minimium_watering_frequency(5)
         schedule._water()
-        self.assertEqual(7, sum(mock_sleep.sleep_history))
+        self.assertEqual(2, sum(mock_sleep.sleep_history))
 
     def test_total_sleep_is_runtime(self):
         mock_sleep = MockSleep()

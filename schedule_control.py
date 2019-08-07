@@ -9,7 +9,7 @@ import pump_control
 
 class Schedule:
     def __init__(self):
-        self.gap = 1*3600
+        self.interval = 1*3600
         self.timeslept = 0
         self.runtime = None
         self.moisture_level = 0.4
@@ -17,9 +17,10 @@ class Schedule:
         self.pump = pump_control.Pump()
         self.amount = 2
         self.check_frequency = 5 * 60
+        self.last_watered = 0 # Unix time
 
-    def set_minimium_watering_frequency(self, gap):
-        self.gap = gap
+    def set_minimium_watering_frequency(self, interval):
+        self.interval = interval
 
     def set_water_dispense_amount(self, amount):
         self.amount = amount
@@ -47,14 +48,12 @@ class Schedule:
                 time.sleep(self.check_frequency)
 
     def _should_water(self):
-        return self.moisture_level < self.moisture_level_threshold
+        low_water = self.moisture_level < self.moisture_level_threshold#
+        exceeded_interval = time.time() - self.last_watered > self.interval
+        return low_water and exceeded_interval
 
     def _water(self):
         self.pump.enable_pump_for_duration(self.amount)
         if self.runtime is not None:
             self.timeslept += self.amount
-            time.sleep(min(self.gap, self.runtime - self.timeslept))
-            self.timeslept += min(self.gap, self.runtime - self.timeslept)
 
-        else:
-            time.sleep(self.gap)
