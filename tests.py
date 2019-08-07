@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# pylint: disable=C0111
+# pylint: disable=C0111,W0212
 """
 Created on Tue Aug  6 15:38:24 2019
 
@@ -66,17 +66,17 @@ class TestSchedule(unittest.TestCase):
         schedule.set_minimium_watering_frequency(5)
         schedule._water()
         self.assertEqual(7, sum(mock_sleep.sleep_history))
-        
+
     def test_total_sleep_is_runtime(self):
         mock_sleep = MockSleep()
         schedule_control.time.sleep = mock_sleep.sleep
         schedule_control.pump_control.time.sleep = mock_sleep.sleep
         schedule = schedule_control.Schedule()
         schedule.set_maximium_runtime(24 * 3600)
-        
+
         schedule.run()
         self.assertEqual(24 * 3600, sum(mock_sleep.sleep_history))
-        
+
         schedule_control.time.sleep = time.sleep
         schedule_control.pump_control.time.sleep = time.sleep
 
