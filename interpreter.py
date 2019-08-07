@@ -17,8 +17,9 @@ class MoistureInterpreter:
 
     def ReadFromChip(self):
         dataArray = self.moistureSensor.xfer([0x60,0x00])
-        print(dataArray)
+        print(self.ConvertData(dataArray))
 
-    def ConvertData(self, input):
-        pass
+    def ConvertData(self, data_array):
+        return (data_array[0]<<8)+(data_array[1])
+        
         #convert from binary to int

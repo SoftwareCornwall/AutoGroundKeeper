@@ -14,5 +14,8 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    while True:
+        interpreter.MoistureInterpreter().ReadFromChip()
+        time.sleep(1)
+    #main()
     
