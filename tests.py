@@ -58,13 +58,27 @@ class TestPumpControl(unittest.TestCase):
 
 
 class TestSchedule(unittest.TestCase):
-    def test_wait_watering_gap_sleep_for_minimum_watering_frequency(self):
+    def test_watering_duration_is_amount(self):
         mock_sleep = MockSleep()
         schedule_control.time.sleep = mock_sleep.sleep
         schedule = schedule_control.Schedule()
-        schedule.set_minimium_watering_frequency(3*3600)
-        schedule.wait_watering_gap()
-        self.assertEqual(3*3600, sum(mock_sleep.sleep_history))
+        schedule.set_water_dispense_amount(2)
+        schedule.set_minimium_watering_frequency(5)
+        schedule._water()
+        self.assertEqual(7, sum(mock_sleep.sleep_history))
+        
+    def test_total_sleep_is_runtime(self):
+        mock_sleep = MockSleep()
+        schedule_control.time.sleep = mock_sleep.sleep
+        schedule_control.pump_control.time.sleep = mock_sleep.sleep
+        schedule = schedule_control.Schedule()
+        schedule.set_maximium_runtime(24 * 3600)
+        
+        schedule.run()
+        self.assertEqual(24 * 3600, sum(mock_sleep.sleep_history))
+        
+        schedule_control.time.sleep = time.sleep
+        schedule_control.pump_control.time.sleep = time.sleep
 
 
 if __name__ == '__main__':
