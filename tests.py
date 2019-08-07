@@ -36,13 +36,12 @@ class MockTime():
 
     def sleep(self, duration):
         self.sleep_history.append(duration)
-    
+
     def time(self):
         if self._time_is_locked:
             return self._fixed_time
-        else:
-            return time.time()
-    
+        return time.time()
+
     def set_time(self, desired):
         self._time_is_locked = True
         self._fixed_time = desired
@@ -52,10 +51,10 @@ class TestPumpControl(unittest.TestCase):
     def setUp(self):
         self.mock_time = MockTime()
         pump_control.time = self.mock_time
-        
+
     def tearDown(self):
         pump_control.time = time
-        
+
     def test_enable_pump_for_duration(self):
         pump = pump_control.Pump()
         pump.enable_pump_for_duration(2)
@@ -79,11 +78,11 @@ class TestSchedule(unittest.TestCase):
         self.mock_time = MockTime()
         schedule_control.time = self.mock_time
         schedule_control.pump_control.time = self.mock_time
-        
+
     def tearDown(self):
         schedule_control.time = time
         schedule_control.pump_control.time = time
-        
+
     def test_watering_duration_is_amount(self):
         schedule = schedule_control.Schedule()
         schedule.set_water_dispense_amount(2)
@@ -116,7 +115,7 @@ class TestSchedule(unittest.TestCase):
         schedule.moisture_level_threshold = 0.3
         schedule._water()
         self.assertFalse(schedule._should_water())
-    
+
     def test_should_water_returns_true_when_not_recently_watered(self):
         schedule = schedule_control.Schedule()
         schedule.set_minimium_watering_frequency(3*3600)
