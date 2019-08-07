@@ -12,14 +12,21 @@ import time
 
 import pump_control
 
+class MockSleep():
+    def __init__(self):
+        self.sleep_history = []
+    def sleep(self, duration):
+        self.sleep_history.append(duration)
+
 
 class TestPumpControl(unittest.TestCase):
     def test_enable_pump_for_duration(self):
-        start = time.time()
+        mock_sleep = MockSleep()
+        pump_control.time.sleep = mock_sleep.sleep
         pump = pump_control.Pump()
         pump.enable_pump_for_duration(2)
-        duration = time.time() - start
-        self.assertTrue(1.9 < duration < 2.1)
+        pump_control.time.sleep = time.sleep
+        self.assertEqual([2], mock_sleep.sleep_history)
 
     def test_start_pump(self):
         pump = pump_control.Pump()
