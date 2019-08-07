@@ -13,9 +13,10 @@ class MoistureInterpreter:
     def __init__(self):
         self.moistureSensor = spidev.SpiDev()
         self.moistureSensor.open(0, 0)
-        self.moistureSensor.bits_per_word = 10
+        self.moistureSensor.max_speed_hz = 5000
+        # self.moistureSensor.bits_per_word = 10
 
-    def ReadFromChip(self, nBytes):
+    def ReadFromChip(self):
         dataArray = self.moistureSensor.xfer([0x60,0x00])
         print(dataArray)
 

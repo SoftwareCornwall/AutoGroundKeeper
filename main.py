@@ -4,7 +4,7 @@
 import time
 
 import pump_control
-
+import interpreter
 
 def main():
     pump = pump_control.Pump()
@@ -14,4 +14,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    interpreter.MoistureInterpreter().ReadFromChip()
+    #main()
+    
