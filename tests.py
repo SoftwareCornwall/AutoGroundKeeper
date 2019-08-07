@@ -78,7 +78,7 @@ class TestSchedule(unittest.TestCase):
 
         schedule_control.time.sleep = time.sleep
         schedule_control.pump_control.time.sleep = time.sleep
-    
+
     def test_should_water_returns_true_when_moisture_level_below_threshold(self):
         schedule = schedule_control.Schedule()
         schedule.moisture_level = 0.2
@@ -89,6 +89,14 @@ class TestSchedule(unittest.TestCase):
         schedule = schedule_control.Schedule()
         schedule.moisture_level = 0.4
         schedule.moisture_level_threshold = 0.3
+        self.assertFalse(schedule._should_water())
+
+    def test_should_water_false_when_recently_watered(self):
+        schedule = schedule_control.Schedule()
+        schedule.set_minimium_watering_frequency(3*3600)
+        schedule.moisture_level = 0.2
+        schedule.moisture_level_threshold = 0.3
+        schedule._water()
         self.assertFalse(schedule._should_water())
 
 

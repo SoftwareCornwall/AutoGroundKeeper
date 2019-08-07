@@ -54,6 +54,7 @@ class Schedule:
 
     def _water(self):
         self.pump.enable_pump_for_duration(self.amount)
+        self.last_watered = time.time()
         if self.runtime is not None:
             self.timeslept += self.amount
 
