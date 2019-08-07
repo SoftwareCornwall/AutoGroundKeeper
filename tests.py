@@ -8,12 +8,25 @@ Created on Tue Aug  6 15:38:24 2019
 """
 
 import unittest
+import doctest
 import time
 
 import pump_control
 
 
 class MockSleep():
+    '''
+    Mock sleep function that records duration of all time.sleep calls.
+    Example:
+        >>> old_sleep = time.sleep
+        >>> mock_sleep = MockSleep()
+        >>> time.sleep = mock_sleep.sleep
+        >>> time.sleep(10)
+        >>> time.sleep(3.2)
+        >>> mock_sleep.sleep_history
+        [10, 3.2]
+        >>> time.sleep = old_sleep
+    '''
     def __init__(self):
         self.sleep_history = []
 
@@ -45,3 +58,4 @@ class TestPumpControl(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+    doctest.testmod()
