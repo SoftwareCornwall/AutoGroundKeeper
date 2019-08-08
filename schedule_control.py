@@ -36,7 +36,7 @@ class Schedule:
         self.check_frequency = check_frequency
 
     def run(self):
-        while (self.timeslept < self.runtime or self.runtime is None):
+        while (self.runtime is None or self.timeslept < self.runtime):
             if self._should_water():
                 self._water()
 
@@ -51,6 +51,7 @@ class Schedule:
     def _should_water(self):
         low_water = self.moisture_interpreter.get_a2d_count() < self.moisture_level_threshold
         exceeded_interval = time.time() - self.last_watered > self.interval
+        print( low_water and exceeded_interval )
         return low_water and exceeded_interval
 
     def _water(self):
