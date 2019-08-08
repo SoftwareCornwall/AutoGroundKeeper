@@ -6,7 +6,6 @@ Created on Tue Aug  6 15:38:24 2019
 
 @author: pi
 """
-
 import unittest
 import doctest
 import time
@@ -133,7 +132,6 @@ class TestMoistureSensorInOut(unittest.TestCase):
     def setUp(self):
         self.interp = sensor_control.Sensor()
         self.interp.moisture_sensor = MockSPI()
-
 
     def test_data_is_converted_correctly(self):
         mockData = [0b00000010, 0b11101011]

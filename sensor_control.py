@@ -8,8 +8,8 @@ Created on Wed Aug  7 11:14:55 2019
 
 import spidev
 
-class Sensor:
 
+class Sensor:
     def __init__(self):
         self.moisture_sensor = spidev.SpiDev()
         self.moisture_sensor.open(0, 0)
@@ -26,4 +26,4 @@ class Sensor:
         print(result)
         return result
 
-        #convert from binary to int
+        # convert from binary to int

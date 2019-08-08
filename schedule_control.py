@@ -28,20 +28,25 @@ class Schedule:
 
             if self.config.data['run_duration'] is not None:
                 amount_to_sleep = min(self.config.data['check_frequency'],
-                                      self.config.data['run_duration'] - self.timeslept)
+                                      self.config.data['run_duration']
+                                      - self.timeslept)
                 time.sleep(amount_to_sleep)
                 self.timeslept += amount_to_sleep
             else:
                 time.sleep(self.config.data['check_frequency'])
 
     def _should_water(self):
-        low_water = self.moisture_level < self.config.data['moisture_level_threshold']
-        exceeded_interval = time.time() - self.last_watered > self.config.data['interval']
-        print( low_water and exceeded_interval )
+        low_water = (self.moisture_level
+                     < self.config.data['moisture_level_threshold'])
+        exceeded_interval = ((time.time() - self.last_watered)
+                             > self.config.data['interval'])
+        print(low_water and exceeded_interval)
         return low_water and exceeded_interval
 
     def _water(self):
-        self.pump.enable_pump_for_duration(self.config.data['water_pumping_duration'])
+        self.pump.enable_pump_for_duration(
+                self.config.data['water_pumping_duration']
+                )
         self.last_watered = time.time()
         if self.config.data['run_duration'] is not None:
             self.timeslept += self.config.data['water_pumping_duration']

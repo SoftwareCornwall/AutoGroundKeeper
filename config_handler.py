@@ -5,6 +5,7 @@ import json
 import time
 import os
 
+
 class ConfigHandler:
     def __init__(self):
         self.load()

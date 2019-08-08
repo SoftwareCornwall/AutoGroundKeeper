@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=C0111
 
-
 import schedule_control
+
 
 def main():
     schedule = schedule_control.Schedule()
@@ -12,4 +12,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
