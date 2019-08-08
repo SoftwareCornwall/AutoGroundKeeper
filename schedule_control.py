@@ -11,42 +11,42 @@ import config_handler
 
 class Schedule:
     def __init__(self):
-        self.config = config_handler.ConfigHandler()
-        self.timeslept = 0
-        self.moisture_level = 0
-        self.pump = pump_control.Pump()
-        self.last_watered = 0  # Unix time
-        self.moisture_interpreter = sensor_control.Sensor()
+        self._config = config_handler.ConfigHandler()
+        self._timeslept = 0
+        self._moisture_level = 0
+        self._pump = pump_control.Pump()
+        self._last_watered = 0  # Unix time
+        self._moisture_interpreter = sensor_control.Sensor()
 
     def run(self):
-        while (self.config.data['run_duration'] is None
-                or self.timeslept < self.config.data['run_duration']):
-            self.moisture_level = self.moisture_interpreter.get_a2d_count()
-            self.config.reload_if_modified()
+        while (self._config.data['run_duration'] is None
+               or self._timeslept < self._config.data['run_duration']):
+            self._moisture_level = self._moisture_interpreter.get_a2d_count()
+            self._config.reload_if_modified()
             if self._should_water():
                 self._water()
 
-            if self.config.data['run_duration'] is not None:
-                amount_to_sleep = min(self.config.data['check_frequency'],
-                                      self.config.data['run_duration']
-                                      - self.timeslept)
+            if self._config.data['run_duration'] is not None:
+                amount_to_sleep = min(self._config.data['check_frequency'],
+                                      self._config.data['run_duration']
+                                      - self._timeslept)
                 time.sleep(amount_to_sleep)
-                self.timeslept += amount_to_sleep
+                self._timeslept += amount_to_sleep
             else:
-                time.sleep(self.config.data['check_frequency'])
+                time.sleep(self._config.data['check_frequency'])
 
     def _should_water(self):
-        low_water = (self.moisture_level
-                     < self.config.data['moisture_level_threshold'])
-        exceeded_interval = ((time.time() - self.last_watered)
-                             > self.config.data['interval'])
+        low_water = (self._moisture_level
+                     < self._config.data['moisture_level_threshold'])
+        exceeded_interval = ((time.time() - self._last_watered)
+                             > self._config.data['interval'])
         print(low_water and exceeded_interval)
         return low_water and exceeded_interval
 
     def _water(self):
-        self.pump.enable_pump_for_duration(
-                self.config.data['water_pumping_duration']
+        self._pump.enable_pump_for_duration(
+            self._config.data['water_pumping_duration']
                 )
-        self.last_watered = time.time()
-        if self.config.data['run_duration'] is not None:
-            self.timeslept += self.config.data['water_pumping_duration']
+        self._last_watered = time.time()
+        if self._config.data['run_duration'] is not None:
+            self._timeslept += self._config.data['water_pumping_duration']

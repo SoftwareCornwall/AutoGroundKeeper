@@ -84,38 +84,38 @@ class TestSchedule(unittest.TestCase):
         del self.schedule
 
     def test_watering_duration_is_amount(self):
-        self.schedule.config.data['water_pumping_duration'] = 2
+        self.schedule._config.data['water_pumping_duration'] = 2
         self.schedule._water()
         self.assertEqual(2, sum(self.mock_time.sleep_history))
 
     def test_total_sleep_is_runtime(self):
-        self.schedule.config.data['run_duration'] = 24 * 3600
-        self.schedule.config.data['check_frequency'] = 15*60
+        self.schedule._config.data['run_duration'] = 24 * 3600
+        self.schedule._config.data['check_frequency'] = 15*60
 
         self.schedule.run()
         self.assertEqual(24 * 3600, sum(self.mock_time.sleep_history))
 
     def test_should_water_returns_true_when_moisture_level_below_threshold(self):
-        self.schedule.moisture_level = 600
-        self.schedule.moisture_level_threshold = 800
+        self.schedule._moisture_level = 600
+        self.schedule._config.data['moisture_level_threshold'] = 800
         self.assertTrue(self.schedule._should_water())
 
     def test_should_water_returns_false_when_moisture_level_above_threshold(self):
-        self.schedule.moisture_level = 900
-        self.schedule.moisture_level_threshold = 800
+        self.schedule._moisture_level = 900
+        self.schedule._config.data['moisture_level_threshold'] = 800
         self.assertFalse(self.schedule._should_water())
 
     def test_should_water_false_when_recently_watered(self):
-        self.schedule.config.data['interval'] = 3 * 3600
-        self.schedule.moisture_level = 600
-        self.schedule.moisture_level_threshold = 800
+        self.schedule._config.data['interval'] = 3 * 3600
+        self.schedule._moisture_level = 600
+        self.schedule._config.data['moisture_level_threshold'] = 800
         self.schedule._water()
         self.assertFalse(self.schedule._should_water())
 
     def test_should_water_returns_true_when_not_recently_watered(self):
-        self.schedule.config.data['interval'] = 3 * 3600
-        self.schedule.moisture_level = 600
-        self.schedule.moisture_level_threshold = 800
+        self.schedule._config.data['interval'] = 3 * 3600
+        self.schedule._moisture_level = 600
+        self.schedule._config.data['moisture_level_threshold'] = 800
         self.mock_time.set_time(0)
         self.schedule._water()
         self.mock_time.set_time(3*3600 + 1)
