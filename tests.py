@@ -126,10 +126,12 @@ class TestSchedule(unittest.TestCase):
         self.mock_time.set_time(3*3600 + 1)
         self.assertTrue(schedule._should_water())
 
+
 class MockSPI():
     def xfer(self, transmitted_data):
         self.transmitted = transmitted_data
-        return [0,0]
+        return [0, 0]
+
 
 class TestMoistureSensorInOut(unittest.TestCase):
     def test_data_is_converted_correctly(self):
@@ -141,7 +143,7 @@ class TestMoistureSensorInOut(unittest.TestCase):
         interp = interpreter.MoistureInterpreter()
         interp.moistureSensor = MockSPI()
         interp.ReadFromChip()
-        self.assertEqual([0x60,0x00], interp.moistureSensor.transmitted )
+        self.assertEqual([0x60, 0x00], interp.moistureSensor.transmitted)
 
 
 if __name__ == '__main__':
