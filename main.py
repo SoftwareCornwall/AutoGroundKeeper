@@ -3,19 +3,16 @@
 # pylint: disable=C0111
 import time
 
-import pump_control
 import interpreter
+import schedule_control
 
 def main():
-    pump = pump_control.Pump()
-    for _ in range(8):
-        pump.enable_pump_for_duration(2)
-        time.sleep(3 * 3600)
+    schedule = schedule_control.Schedule()
+    schedule.set_check_frequency(5)
+    schedule.set_minimium_watering_frequency(10)
+    schedule.run()
 
 
 if __name__ == '__main__':
-    while True:
-        interpreter.MoistureInterpreter().ReadFromChip()
-        time.sleep(1)
-    #main()
+    main()
     

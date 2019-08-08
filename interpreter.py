@@ -16,10 +16,14 @@ class MoistureInterpreter:
         self.moistureSensor.max_speed_hz = 5000
 
     def ReadFromChip(self):
-        dataArray = self.moistureSensor.xfer([0x60, 0x00])
-        print(self.ConvertData(dataArray))
+        return self.moistureSensor.xfer([0x60, 0x00])
 
     def ConvertData(self, data_array):
         return (data_array[0] * 256) + (data_array[1])
+
+    def get_a2d_count(self):
+        result = self.ConvertData(self.ReadFromChip())
+        print(result)
+        return result
 
         #convert from binary to int
