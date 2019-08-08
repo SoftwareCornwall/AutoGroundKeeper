@@ -100,10 +100,23 @@ class TestSchedule(unittest.TestCase):
         schedule._water()
         self.assertFalse(schedule._should_water())
 
+class MockSPI():
+    def xfer(self, transmitted_data):
+        self.transmitted = transmitted_data
+        return [0,0]
+
 class TestMoistureSensorInOut(unittest.TestCase):
     def test_data_is_converted_correctly(self):
-        mockData = [0b00000100,0b11101011]
-        self.assertEqual(0b0011101011, interpreter.MoistureInterpreter.ConvertData(mockData))
+        mockData = [0b00000010, 0b11101011]
+        interp = interpreter.MoistureInterpreter()
+        self.assertEqual(0b1011101011, interp.ConvertData(mockData))
+
+    def test_moisture_reading_is_taken_from_channel_0(self):
+        interp = interpreter.MoistureInterpreter()
+        interp.moistureSensor = MockSPI()
+        interp.ReadFromChip()
+        self.assertEqual([0x60,0x00], interp.moistureSensor.transmitted )
+
 
 if __name__ == '__main__':
     unittest.main()
