@@ -20,6 +20,6 @@ class MoistureInterpreter:
         print(self.ConvertData(dataArray))
 
     def ConvertData(self, data_array):
-        return (data_array[0]<<8)+(data_array[1])
+        return (data_array[0]*256)+(data_array[1])
         
         #convert from binary to int
