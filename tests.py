@@ -13,7 +13,7 @@ import time
 
 import pump_control
 import schedule_control
-import interpreter
+import sensor_control
 
 
 class MockTime():
@@ -136,14 +136,14 @@ class MockSPI():
 class TestMoistureSensorInOut(unittest.TestCase):
     def test_data_is_converted_correctly(self):
         mockData = [0b00000010, 0b11101011]
-        interp = interpreter.MoistureInterpreter()
-        self.assertEqual(0b1011101011, interp.ConvertData(mockData))
+        interp = sensor_control.Sensor()
+        self.assertEqual(0b1011101011, interp.convert_data(mockData))
 
     def test_moisture_reading_is_taken_from_channel_0(self):
-        interp = interpreter.MoistureInterpreter()
-        interp.moistureSensor = MockSPI()
-        interp.ReadFromChip()
-        self.assertEqual([0x60, 0x00], interp.moistureSensor.transmitted)
+        interp = sensor_control.Sensor()
+        interp.moisture_sensor = MockSPI()
+        interp.read_from_chip()
+        self.assertEqual([0x60, 0x00], interp.moisture_sensor.transmitted)
 
 
 if __name__ == '__main__':

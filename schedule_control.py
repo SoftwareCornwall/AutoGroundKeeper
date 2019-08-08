@@ -5,7 +5,7 @@
 import time
 
 import pump_control
-import interpreter
+import sensor_control
 
 
 class Schedule:
@@ -18,7 +18,7 @@ class Schedule:
         self.amount = 2
         self.check_frequency = 5 * 60
         self.last_watered = 0  # Unix time
-        self.moisture_interpreter = interpreter.MoistureInterpreter()
+        self.moisture_interpreter = sensor_control.Sensor()
 
     def set_minimium_watering_frequency(self, interval):
         self.interval = interval
