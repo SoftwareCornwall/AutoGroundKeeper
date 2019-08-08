@@ -18,21 +18,6 @@ class Schedule:
         self.last_watered = 0  # Unix time
         self.moisture_interpreter = sensor_control.Sensor()
 
-    def set_minimium_watering_frequency(self, interval):
-        self.interval = interval
-
-    def set_water_dispense_amount(self, amount):
-        self.amount = amount
-
-    def set_moisture_level_threshold(self, moisture_level):
-        self.moisture_level_threshold = moisture_level
-
-    def set_maximium_runtime(self, runtime):
-        self.runtime = runtime
-
-    def set_check_frequency(self, check_frequency):
-        self.check_frequency = check_frequency
-
     def run(self):
         while (self.config.data['run_duration'] is None
                 or self.timeslept < self.config.data['run_duration']):

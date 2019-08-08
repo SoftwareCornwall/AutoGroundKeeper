@@ -7,9 +7,6 @@ import schedule_control
 
 def main():
     schedule = schedule_control.Schedule()
-    schedule.set_check_frequency(5)
-    schedule.set_minimium_watering_frequency(10)
-    schedule.set_moisture_level_threshold(800)
     schedule.run()
 
 

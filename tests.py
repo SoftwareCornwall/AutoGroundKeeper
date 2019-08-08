@@ -85,13 +85,12 @@ class TestSchedule(unittest.TestCase):
         del self.schedule
 
     def test_watering_duration_is_amount(self):
-        self.schedule.set_water_dispense_amount(2)
+        self.schedule.config.data['water_pumping_duration'] = 2
         self.schedule._water()
         self.assertEqual(2, sum(self.mock_time.sleep_history))
 
     def test_total_sleep_is_runtime(self):
         self.schedule.config.data['run_duration'] = 24 * 3600
-        
         self.schedule.config.data['check_frequency'] = 15*60
 
         self.schedule.run()
@@ -108,14 +107,14 @@ class TestSchedule(unittest.TestCase):
         self.assertFalse(self.schedule._should_water())
 
     def test_should_water_false_when_recently_watered(self):
-        self.schedule.set_minimium_watering_frequency(3*3600)
+        self.schedule.config.data['interval'] = 3 * 3600
         self.schedule.moisture_level = 600
         self.schedule.moisture_level_threshold = 800
         self.schedule._water()
         self.assertFalse(self.schedule._should_water())
 
     def test_should_water_returns_true_when_not_recently_watered(self):
-        self.schedule.set_minimium_watering_frequency(3*3600)
+        self.schedule.config.data['interval'] = 3 * 3600
         self.schedule.moisture_level = 600
         self.schedule.moisture_level_threshold = 800
         self.mock_time.set_time(0)
