@@ -55,6 +55,7 @@ class TestPumpControl(unittest.TestCase):
 
     def tearDown(self):
         pump_control.time = time
+        del self.pump
 
     def test_enable_pump_for_duration(self):
         self.pump.enable_pump_for_duration(2)
@@ -81,6 +82,7 @@ class TestSchedule(unittest.TestCase):
     def tearDown(self):
         schedule_control.time = time
         schedule_control.pump_control.time = time
+        del self.schedule
 
     def test_watering_duration_is_amount(self):
         self.schedule.set_water_dispense_amount(2)
@@ -88,7 +90,9 @@ class TestSchedule(unittest.TestCase):
         self.assertEqual(2, sum(self.mock_time.sleep_history))
 
     def test_total_sleep_is_runtime(self):
-        self.schedule.set_maximium_runtime(24 * 3600)
+        self.schedule.config.data['run_duration'] = 24 * 3600
+        
+        self.schedule.config.data['check_frequency'] = 15*60
 
         self.schedule.run()
         self.assertEqual(24 * 3600, sum(self.mock_time.sleep_history))

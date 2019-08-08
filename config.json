@@ -1,0 +1,7 @@
+{
+"interval":10,
+"moisture_level_threshold":800,
+"water_pumping_duration":2,
+"check_frequency":5,
+"run_duration":null
+}
