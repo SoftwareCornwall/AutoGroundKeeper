@@ -13,6 +13,7 @@ import time
 import pump_control
 import schedule_control
 import sensor_control
+import tank_alarm
 
 
 class MockTime():
@@ -69,6 +70,23 @@ class TestPumpControl(unittest.TestCase):
         self.pump.start_pump()
         self.pump.stop_pump()
         self.assertEqual(0, self.pump.pump.value)
+
+class TestTankAlarm(unittest.TestCase):
+    def setUp(self):
+        self.tank_alarm = tank_alarm.TankAlarm()
+
+    def tearDown(self):
+        del self.tank_alarm
+
+    def test_full_enables_green_disables_red(self):
+        self.tank_alarm.set_status(1)
+        self.assertEqual(1, self.tank_alarm._green.value)
+        self.assertEqual(0, self.tank_alarm._red.value)
+
+    def test_empty_disables_green_enables_red(self):
+        self.tank_alarm.set_status(0)
+        self.assertEqual(0, self.tank_alarm._green.value)
+        self.assertEqual(1, self.tank_alarm._red.value)
 
 
 class TestSchedule(unittest.TestCase):
