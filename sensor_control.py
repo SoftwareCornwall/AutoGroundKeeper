@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
+# pylint: disable=C0111
 """
 Created on Wed Aug  7 11:14:55 2019
 
