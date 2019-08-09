@@ -13,6 +13,7 @@ import time
 import pump_control
 import schedule_control
 import sensor_control
+import tank_alarm
 
 
 class MockTime():
@@ -103,6 +104,24 @@ class TestPumpControl(unittest.TestCase):
         self.assertTrue( moisture_sensor.get_a2d_count() > start_moisture_level )
 
 
+class TestTankAlarm(unittest.TestCase):
+    def setUp(self):
+        self.tank_alarm = tank_alarm.TankAlarm()
+
+    def tearDown(self):
+        del self.tank_alarm
+
+    def test_full_enables_green_disables_red(self):
+        self.tank_alarm.set_status(1)
+        self.assertEqual(1, self.tank_alarm._green.value)
+        self.assertEqual(0, self.tank_alarm._red.value)
+
+    def test_empty_disables_green_enables_red(self):
+        self.tank_alarm.set_status(0)
+        self.assertEqual(0, self.tank_alarm._green.value)
+        self.assertEqual(1, self.tank_alarm._red.value)
+
+
 class TestSchedule(unittest.TestCase):
     def setUp(self):                    
         self.mock_time = MockTime()
@@ -152,7 +171,7 @@ class TestSchedule(unittest.TestCase):
         self.schedule._config.data['moisture_level_threshold'] = 800
         self.mock_time.set_time(0)
         self.schedule._water()
-        self.mock_time.set_time(3*3600 + 1)
+        self.mock_time.set_time(3 * 3600 + 1)
         self.assertTrue(self.schedule._should_water())
 
 
