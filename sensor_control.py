@@ -16,15 +16,17 @@ class Sensor:
         self.moisture_sensor.open(0, 0)
         self.moisture_sensor.max_speed_hz = 5000
 
-    def read_from_chip(self):
-        return self.moisture_sensor.xfer([0x60, 0x00])
-
     def convert_data(self, data_array):
         return (data_array[0] * 256) + (data_array[1])
 
     def get_a2d_count(self):
-        result = self.convert_data(self.read_from_chip())
-        print(result)
-        return result
-
-        # convert from binary to int
+        data = self.moisture_sensor.xfer([0x60,0x00])
+        moisture_level = self.convert_data(data)
+        print(moisture_level)
+        return moisture_level
+    
+    def get_light_a2d(self):
+        data = self.moisture_sensor.xfer([0x70,0x00])
+        light_level = self.convert_data(data)
+        print(light_level)
+        return light_level

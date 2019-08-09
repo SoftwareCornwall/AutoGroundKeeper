@@ -199,8 +199,12 @@ class TestMoistureSensorInOut(unittest.TestCase):
         self.assertEqual(0b1011101011, self.interp.convert_data(mock_data))
 
     def test_moisture_reading_is_taken_from_channel_0(self):
-        self.interp.read_from_chip()
+        self.interp.get_a2d_count()
         self.assertEqual([0x60, 0x00], self.interp.moisture_sensor.transmitted)
+        
+    def test_light_reading_is_taken_from_channel_1(self):
+        self.interp.get_light_a2d()
+        self.assertEqual([0x70, 0x00], self.interp.moisture_sensor.transmitted)
 
 
 if __name__ == '__main__':
