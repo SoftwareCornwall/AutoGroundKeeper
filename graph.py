@@ -9,11 +9,14 @@ import matplotlib.pyplot as plt
 import datetime
 import random
 import csv
+import dateutil.relativedelta
 
 class GraphDrawer:
     
     def __init__(self):
         self.file_location = "data.csv"
+        self.max_time = datetime.datetime.now()
+        self.min_time = datetime.datetime.now() - dateutil.relativedelta.relativedelta(months=1)
         self.point_shape = "*"
         #Point shape options
         #"." = point
@@ -54,11 +57,15 @@ class GraphDrawer:
         with open(self.file_location) as csvDataFile:
             csvReader = csv.reader(csvDataFile)
             for row in csvReader:
-                xLine.append(row[0])
-                yLine.append(row[Setting])
+                if self.min_time < datetime.datetime.strptime(row[0], "%Y/%m/%d %H:%M") < self.max_time:
+                    xLine.append(row[0])
+                    yLine.append(row[Setting])
         
         
         return [xLine, yLine]
+    
+ 
+        
     
     def draw_light_level_graph(self):             
         plant_data = self.read_data(2) 
