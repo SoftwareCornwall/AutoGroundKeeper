@@ -52,7 +52,7 @@ class Schedule:
 
     def _water(self):
 
-        self._pump.enable_pump_until_moisture_sencor_is_saturated_for_duration(
+        self._pump.enable_pump_until_saturated_for_duration(
             self._config.data['water_pumping_duration'],
             self._moisture_interpreter,
             self._moisture_level,
