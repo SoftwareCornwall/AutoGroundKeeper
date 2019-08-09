@@ -71,6 +71,7 @@ class TestPumpControl(unittest.TestCase):
         self.pump.stop_pump()
         self.assertEqual(0, self.pump.pump.value)
 
+
 class TestTankAlarm(unittest.TestCase):
     def setUp(self):
         self.tank_alarm = tank_alarm.TankAlarm()
@@ -108,7 +109,7 @@ class TestSchedule(unittest.TestCase):
 
     def test_total_sleep_is_runtime(self):
         self.schedule._config.data['run_duration'] = 24 * 3600
-        self.schedule._config.data['check_frequency'] = 15*60
+        self.schedule._config.data['check_frequency'] = 15 * 60
 
         self.schedule.run()
         self.assertEqual(24 * 3600, sum(self.mock_time.sleep_history))
@@ -136,7 +137,7 @@ class TestSchedule(unittest.TestCase):
         self.schedule._config.data['moisture_level_threshold'] = 800
         self.mock_time.set_time(0)
         self.schedule._water()
-        self.mock_time.set_time(3*3600 + 1)
+        self.mock_time.set_time(3 * 3600 + 1)
         self.assertTrue(self.schedule._should_water())
 
 
