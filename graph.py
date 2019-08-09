@@ -35,8 +35,7 @@ class GraphDrawer:
         
     def fake_data(self):
         x_fake_data = []
-        y_fake_data = []
-                
+        y_fake_data = []               
         for day in range(1,28):
             for hour in range(1,24):
                 for minute in range(0,60,15):
@@ -45,26 +44,21 @@ class GraphDrawer:
                         y_fake_data.append(random.randrange(20*hour -20,20*hour))
                     else:
                         y_fake_data.append(random.randrange(240 - (20*(hour-12)+20),240 - 20*(hour-12)))
-
         return [x_fake_data,y_fake_data]
     
     def read_data(self, Setting):
         """Setting: 1 for Moisture, 2 for Light Level """
-
         xLine = []
-        yLine = []
-        
+        yLine = []        
         with open(self.file_location) as csvDataFile:
             csvReader = csv.reader(csvDataFile)
             for row in csvReader:
-                if self.min_time < datetime.datetime.strptime(row[0], "%Y/%m/%d %H:%M") < self.max_time:
-                    xLine.append(row[0])
-                    yLine.append(row[Setting])
-        
-        
+                date_time_of_row = datetime.datetime.strptime(row[0], "%Y/%m/%d %H:%M")
+                if self.min_time < date_time_of_row < self.max_time:
+                    xLine.append(date_time_of_row)
+                    yLine.append(float(row[Setting]))              
         return [xLine, yLine]
     
- 
         
     
     def draw_light_level_graph(self):             
