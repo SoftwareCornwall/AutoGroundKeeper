@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=C0111
+# pylint: disable=C0111,R0902,R0903
 
 
 import time
@@ -9,6 +9,7 @@ import sensor_control
 import config_handler
 import tank_measurement
 import tank_alarm
+
 
 class Schedule:
     def __init__(self):
@@ -52,10 +53,10 @@ class Schedule:
     def _water(self):
 
         self._pump.enable_pump_until_moisture_sencor_is_saturated_for_duration(
-                                                                    self._config.data['water_pumping_duration'],
-                                                                    self._moisture_interpreter, 
-                                                                    self._moisture_level,
-                                                                    )
+            self._config.data['water_pumping_duration'],
+            self._moisture_interpreter,
+            self._moisture_level,
+        )
 
         self._last_watered = time.time()
         if self._config.data['run_duration'] is not None:
