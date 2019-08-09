@@ -18,16 +18,15 @@ class GraphDrawer:
     def fake_data(self):
         x_fake_data = []
         y_fake_data = []
-        
-        lightdata = 0
-        
-        for i in range(0,59):
-            x_fake_data.append(datetime.datetime(2016, 1, 1, 16, i, 0))
-            #lightdata = lightdata + range(0,240)
-            #y_fake_data.append(lightdata)
-        for i in range(0,59):
-            y_fake_data.append(random.randrange(0,200))
-        
+                
+        for day in range(1,28):
+            for hour in range(1,24):
+                x_fake_data.append(datetime.datetime(2016, 1, day, hour, 0, 0))
+                if 0<hour<12:                 
+                    y_fake_data.append(random.randrange(20*hour -20,20*hour))
+                else:
+                    y_fake_data.append(random.randrange(240 - (20*(hour-12)+20),240 - 20*(hour-12)))
+
         return [x_fake_data,y_fake_data]
     
     def read_data(self, file_location):
@@ -43,13 +42,14 @@ class GraphDrawer:
     
     def draw_graph(self):             
         plant_data = self.read_data("") 
-        plt.plot(plant_data[0],plant_data[1],c='b',marker='o')
+        plt.figure(figsize=(14,5))
+        plt.plot(plant_data[0],plant_data[1],c='b',marker='*')
         plt.xlabel('Time', fontsize=16)
         plt.ylabel('Light', fontsize=16)
         plt.title('scatter plot - Light vs Time',fontsize=20)
         plt.gcf().autofmt_xdate()
         plt.grid(True)
-        plt.savefig("GraphImage.png")
+        plt.savefig("GraphImage.png", dpi=300)
         plt.show()
 
 
