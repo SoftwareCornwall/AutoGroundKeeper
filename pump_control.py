@@ -25,7 +25,6 @@ class Pump:
         time.sleep(duration)
         self.stop_pump()
 
-    # Todo: change to has recive water ?? and apply to enable pump durarion.
     def enable_pump_until_moisture_sencor_is_saturated_for_duration(self,
                                                                     duration,
                                                                     moisture_sencor,
@@ -33,7 +32,6 @@ class Pump:
                                                                     moisture_thresshold=50,
                                                                     timeout=5
                                                                     ):
-        current_moisture_level = moisture_sencor.get_a2d_count()
 
         # start the pump and wait till the moisture sencor value goes above the
         # thresshold. -> continued by waiting for the duration and stoping the
