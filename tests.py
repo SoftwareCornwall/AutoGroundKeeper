@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# pylint: disable=C0111,W0212
+# pylint: disable=C0111,W0212,R0902,R0903
 """
 Created on Tue Aug  6 15:38:24 2019
 
@@ -47,18 +47,18 @@ class MockTime():
         self._time_is_locked = True
         self._fixed_time = desired
 
+
 class MockSensor():
     '''
     Mock moisture sencor.
     The moisture incresses after 't' amount of time since Init-ed
 
     '''
-    def __init__( self, moisture_delay = 2, start_level = 500, incressed_level = 900 ):
+    def __init__(self, moisture_delay=2, start_level=500, incressed_level=900):
         self.incress_moisture_delay = moisture_delay
         self.start_time = time.time()
         self.start_moisture_level = start_level
         self.incressed_moisture_level = incressed_level
-
 
     def get_a2d_count(self):
 
@@ -67,10 +67,8 @@ class MockSensor():
         else:
             return self.incressed_moisture_level;
 
-
     def waiting_for_moisture_incress(self):
         return time.time() < self.start_time + self.incress_moisture_delay
-
 
 
 class TestPumpControl(unittest.TestCase):
@@ -100,9 +98,14 @@ class TestPumpControl(unittest.TestCase):
     def test_water_recived_by_sensor(self):
         moisture_sensor = MockSensor()
         start_moisture_level = moisture_sensor.get_a2d_count()
+        self.pump.enable_pump_until_saturated_for_duration(2,
+                                                           moisture_sensor,
+                                                           start_moisture_level,
+                                                           50,
+                                                           5
+        )
+        self.assertTrue(moisture_sensor.get_a2d_count() > start_moisture_level)
 
-        self.pump.enable_pump_until_moisture_sencor_is_saturated_for_duration(2, moisture_sensor, start_moisture_level, 50, 5)
-        self.assertTrue( moisture_sensor.get_a2d_count() > start_moisture_level )
 
 
 class TestTankAlarm(unittest.TestCase):
@@ -191,12 +194,17 @@ class TestMoistureSensorInOut(unittest.TestCase):
         self.interp.moisture_sensor = MockSPI()
 
     def test_data_is_converted_correctly(self):
-        mockData = [0b00000010, 0b11101011]
-        self.assertEqual(0b1011101011, self.interp.convert_data(mockData))
+        mock_data = [0b00000010, 0b11101011]
+        self.assertEqual(0b1011101011, self.interp.convert_data(mock_data))
 
     def test_moisture_reading_is_taken_from_channel_0(self):
-        self.interp.read_from_chip()
+        self.interp.get_a2d_count()
         self.assertEqual([0x60, 0x00], self.interp.moisture_sensor.transmitted)
+        
+    def test_light_reading_is_taken_from_channel_1(self):
+        self.interp.get_light_a2d()
+        self.assertEqual([0x70, 0x00], self.interp.moisture_sensor.transmitted)
+
 
 class TestCSV(unittest.TestCase):
     def test_rows_ordered_by_time_from_CSV_data(self):
@@ -217,6 +225,8 @@ class TestCSV(unittest.TestCase):
         self.assertGreaterEqual(1023,sorted(list_of_datetimes[1])[0])
         self.assertLessEqual(0,sorted(list_of_datetimes[1])[-1])
     
+
+
 
 if __name__ == '__main__':
     unittest.main()
