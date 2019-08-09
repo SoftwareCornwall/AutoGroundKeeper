@@ -125,9 +125,12 @@ class TestTankAlarm(unittest.TestCase):
 class TestSchedule(unittest.TestCase):
     def setUp(self):                    
         self.mock_time = MockTime()
+        self.mock_sensor = MockSensor(0.1)
         schedule_control.time = self.mock_time
         schedule_control.pump_control.time = self.mock_time
         self.schedule = schedule_control.Schedule()
+        self.schedule._moisture_interpreter = self.mock_sensor
+        
 
     def tearDown(self):
         schedule_control.time = time

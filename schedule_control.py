@@ -10,8 +10,6 @@ import config_handler
 import tank_measurement
 import tank_alarm
 
-import tests    # todo: remove.
-
 class Schedule:
     def __init__(self):
         self._config = config_handler.ConfigHandler()
@@ -48,21 +46,15 @@ class Schedule:
                      < self._config.data['moisture_level_threshold'])
         exceeded_interval = ((time.time() - self._last_watered)
                              > self._config.data['interval'])
-        print(low_water and exceeded_interval)  # Todo: removed
+        print(low_water and exceeded_interval)                  # Todo: removed
         return low_water and exceeded_interval
 
     def _water(self):
 
-       # self._pump.enable_pump_for_duration(
-       #     self._config.data['water_pumping_duration']
-       #         )
-        mock_sensor = tests.MockSensor()
         self._pump.enable_pump_until_moisture_sencor_is_saturated_for_duration(
                                                                     self._config.data['water_pumping_duration'],
-                                                                    #self._moisture_interpreter, 
-                                                                    #self._moisture_level,
-                                                                    mock_sensor,
-                                                                    mock_sensor.get_a2d_count()
+                                                                    self._moisture_interpreter, 
+                                                                    self._moisture_level,
                                                                     )
 
         self._last_watered = time.time()
