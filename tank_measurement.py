@@ -3,6 +3,7 @@
 
 import gpiozero
 
+
 class TankMeasurement:
     def __init__(self):
         self._float_switch = gpiozero.DigitalInputDevice(16)
@@ -13,4 +14,3 @@ class TankMeasurement:
         with 1 returned when full, and 0 when empty
         '''
         return self._float_switch.value
-    

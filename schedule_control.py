@@ -25,9 +25,9 @@ class Schedule:
     def run(self):
         while (self._config.data['run_duration'] is None
                or self._timeslept < self._config.data['run_duration']):
-            
+
             self._tank_alarm.set_status(self._tank_measurement.get_tank_level())
-            
+
             self._moisture_level = self._moisture_interpreter.get_a2d_count()
             self._config.reload_if_modified()
             if self._should_water():
@@ -53,7 +53,7 @@ class Schedule:
     def _water(self):
         self._pump.enable_pump_for_duration(
             self._config.data['water_pumping_duration']
-                )
+        )
         self._last_watered = time.time()
         if self._config.data['run_duration'] is not None:
             self._timeslept += self._config.data['water_pumping_duration']

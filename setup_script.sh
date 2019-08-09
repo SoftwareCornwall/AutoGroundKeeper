@@ -1,5 +1,3 @@
-sudo apt install spyder3
+sudo apt install spyder3 gitk flake8
 pip3 install spyder-unittest
-sudo apt install gitk
-sudo apt install flake8
 cp -p pre-commit .git/hooks
