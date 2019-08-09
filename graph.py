@@ -87,6 +87,6 @@ class GraphDrawer:
 
 
 
-Graph = GraphDrawer()
-Graph.draw_light_level_graph()
-Graph.draw_moisture_level_graph()
+#Graph = GraphDrawer()
+#Graph.draw_light_level_graph()
+#Graph.draw_moisture_level_graph()
