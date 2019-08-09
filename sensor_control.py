@@ -20,13 +20,13 @@ class Sensor:
         return (data_array[0] * 256) + (data_array[1])
 
     def get_a2d_count(self):
-        data = self.moisture_sensor.xfer([0x60,0x00])
+        data = self.moisture_sensor.xfer([0x60, 0x00])
         moisture_level = self.convert_data(data)
         print(moisture_level)
         return moisture_level
-    
+
     def get_light_a2d(self):
-        data = self.moisture_sensor.xfer([0x70,0x00])
+        data = self.moisture_sensor.xfer([0x70, 0x00])
         light_level = self.convert_data(data)
         print(light_level)
         return light_level

@@ -46,6 +46,7 @@ class MockTime():
         self._time_is_locked = True
         self._fixed_time = desired
 
+
 class MockSensor():
     '''
     Mock moisture sencor.
@@ -58,7 +59,6 @@ class MockSensor():
         self.start_moisture_level = start_level
         self.incressed_moisture_level = incressed_level
 
-
     def get_a2d_count(self):
 
         if self.waiting_for_moisture_incress():
@@ -66,10 +66,8 @@ class MockSensor():
         else:
             return self.incressed_moisture_level
 
-
     def waiting_for_moisture_incress(self):
         return time.time() < self.start_time + self.incress_moisture_delay
-
 
 
 class TestPumpControl(unittest.TestCase):
@@ -105,7 +103,7 @@ class TestPumpControl(unittest.TestCase):
                                                            start_moisture_level,
                                                            50,
                                                            5
-                                                          )
+        )
         self.assertTrue(moisture_sensor.get_a2d_count() > start_moisture_level)
 
 
@@ -201,7 +199,7 @@ class TestMoistureSensorInOut(unittest.TestCase):
     def test_moisture_reading_is_taken_from_channel_0(self):
         self.interp.get_a2d_count()
         self.assertEqual([0x60, 0x00], self.interp.moisture_sensor.transmitted)
-        
+
     def test_light_reading_is_taken_from_channel_1(self):
         self.interp.get_light_a2d()
         self.assertEqual([0x70, 0x00], self.interp.moisture_sensor.transmitted)

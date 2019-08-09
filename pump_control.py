@@ -32,12 +32,9 @@ class Pump:
                                                  moisture_thresshold=50,
                                                  timeout=5
                                                  ):
-
         # start the pump and wait till the moisture sencor value goes above the
         # thresshold. -> continued by waiting for the duration and stoping the
         # pump
-
-
         self.start_pump()
         start_time = time.time()
 
@@ -47,7 +44,6 @@ class Pump:
             if start_time + timeout < time.time():
                 print("Error: Moisture Not Detected within timeout :(")
                 break   # Error: we have not recived water with in the timeout :|
-
 
         print("End Mois Value:", moisture_sencor.get_a2d_count())
 
