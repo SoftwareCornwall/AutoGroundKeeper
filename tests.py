@@ -103,7 +103,7 @@ class TestPumpControl(unittest.TestCase):
                                                            start_moisture_level,
                                                            50,
                                                            5
-        )
+                                                           )
         self.assertTrue(moisture_sensor.get_a2d_count() > start_moisture_level)
 
 
@@ -134,7 +134,6 @@ class TestSchedule(unittest.TestCase):
         schedule_control.pump_control.time = self.mock_time
         self.schedule = schedule_control.Schedule()
         self.schedule._moisture_interpreter = self.mock_sensor
-
 
     def tearDown(self):
         schedule_control.time = time
