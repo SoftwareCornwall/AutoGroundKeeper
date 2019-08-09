@@ -14,7 +14,21 @@ class GraphDrawer:
     
     def __init__(self):
         self.file_location = "data.csv"
-
+        self.point_shape = "*"
+        #Point shape options
+        #"." = point
+        #"," = pixel
+        #"o" = circle
+        #"^" = triangle_up
+        #"v" = triangle_down
+        #"8" = octagon
+        #"s" = square
+        #"p" = pentagon
+        #"*" = star
+        #"h" = hexagon
+        #"+" = plus
+        #"D" = diamond
+        
         
     def fake_data(self):
         x_fake_data = []
@@ -43,16 +57,13 @@ class GraphDrawer:
                 xLine.append(row[0])
                 yLine.append(row[Setting])
         
-        #fake_data = self.fake_data()
-        #xLine = fake_data[0]
-        #yLine = fake_data[1]
         
         return [xLine, yLine]
     
     def draw_light_level_graph(self):             
         plant_data = self.read_data(2) 
         plt.figure(figsize=(14,5))
-        plt.plot(plant_data[0],plant_data[1],c='b',marker='*')
+        plt.plot(plant_data[0],plant_data[1],c='b',marker= self.point_shape)
         plt.xlabel('Time', fontsize=16)
         plt.ylabel('Light', fontsize=16)
         plt.title('scatter plot - Light vs Time',fontsize=20)
@@ -64,7 +75,7 @@ class GraphDrawer:
     def draw_moisture_level_graph(self):
         plant_data = self.read_data(1) 
         plt.figure(figsize=(14,5))
-        plt.plot(plant_data[0],plant_data[1],c='r',marker='*')
+        plt.plot(plant_data[0],plant_data[1],c='r',marker=self.point_shape)
         plt.xlabel('Time', fontsize=16)
         plt.ylabel('Moisture Level', fontsize=16)
         plt.title('scatter plot - Moisture Level vs Time',fontsize=20)
