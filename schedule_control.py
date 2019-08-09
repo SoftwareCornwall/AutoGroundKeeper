@@ -7,6 +7,8 @@ import time
 import pump_control
 import sensor_control
 import config_handler
+import tank_measurement
+import tank_alarm
 
 
 class Schedule:
@@ -17,10 +19,15 @@ class Schedule:
         self._pump = pump_control.Pump()
         self._last_watered = 0  # Unix time
         self._moisture_interpreter = sensor_control.Sensor()
+        self._tank_measurement = tank_measurement.TankMeasurement()
+        self._tank_alarm = tank_alarm.TankAlarm()
 
     def run(self):
         while (self._config.data['run_duration'] is None
                or self._timeslept < self._config.data['run_duration']):
+            
+            self._tank_alarm.set_status(self._tank_measurement.get_tank_level())
+            
             self._moisture_level = self._moisture_interpreter.get_a2d_count()
             self._config.reload_if_modified()
             if self._should_water():
