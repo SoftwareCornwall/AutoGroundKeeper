@@ -22,7 +22,7 @@ class Sensor:
         byte_2 = byte_array[1]
         return byte_1 + byte_2
 
-    def get_a2d_count(self):
+    def get_moisture_a2d(self):
         data = self.moisture_sensor.xfer([0x60, 0x00])
         moisture_level = self.convert_data(data)
         print(moisture_level)

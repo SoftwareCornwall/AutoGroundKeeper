@@ -9,13 +9,14 @@ Created on Tue Aug  6 15:38:24 2019
 import unittest
 import doctest
 import time
-import csv
+
 
 import pump_control
 import schedule_control
 import sensor_control
 import tank_alarm
-import graph
+
+import csv_recording
 
 class MockTime():
     '''
@@ -60,7 +61,7 @@ class MockSensor():
         self.start_moisture_level = start_level
         self.incressed_moisture_level = incressed_level
 
-    def get_a2d_count(self):
+    def get_moisture_a2d(self):
 
         if self.waiting_for_moisture_incress():
             return self.start_moisture_level
@@ -97,14 +98,14 @@ class TestPumpControl(unittest.TestCase):
 
     def test_water_recived_by_sensor(self):
         moisture_sensor = MockSensor()
-        start_moisture_level = moisture_sensor.get_a2d_count()
+        start_moisture_level = moisture_sensor.get_moisture_a2d()
         self.pump.enable_pump_until_saturated_for_duration(2,
                                                            moisture_sensor,
                                                            start_moisture_level,
                                                            50,
                                                            5
                                                            )
-        self.assertTrue(moisture_sensor.get_a2d_count() > start_moisture_level)
+        self.assertTrue(moisture_sensor.get_moisture_a2d() > start_moisture_level)
 
 
 
@@ -197,7 +198,7 @@ class TestMoistureSensorInOut(unittest.TestCase):
         self.assertEqual(0b1011101011, self.interp.convert_data(mock_data))
 
     def test_moisture_reading_is_taken_from_channel_0(self):
-        self.interp.get_a2d_count()
+        self.interp.get_moisture_a2d()
         self.assertEqual([0x60, 0x00], self.interp.moisture_sensor.transmitted)
         
     def test_light_reading_is_taken_from_channel_1(self):
@@ -208,22 +209,22 @@ class TestMoistureSensorInOut(unittest.TestCase):
 class TestCSV(unittest.TestCase):
     def test_rows_ordered_by_time_from_CSV_data(self):
         #most recent readings at end of file
-        graph_object = graph.GraphDrawer()
-        list_of_datetimes = graph_object.read_data(1)
+        CSV_handler = csv_recording.CSVRecording()
+        list_of_datetimes = CSV_handler.read_data(1)
         self.assertEqual(sorted(list_of_datetimes[0]), list_of_datetimes[0])
-        
+ 
     def test_moisture_values_are_in_range_of_0_to_1023(self):
-        graph_object = graph.GraphDrawer()
-        list_of_datetimes = graph_object.read_data(1)
+        CSV_handler = csv_recording.CSVRecording()
+        list_of_datetimes = CSV_handler.read_data(1)
         self.assertGreaterEqual(1023,sorted(list_of_datetimes[1])[0])
         self.assertLessEqual(0,sorted(list_of_datetimes[1])[-1])
         
     def test_light_levels_are_inrange_of_0_to_1023(self):
-        graph_object = graph.GraphDrawer()
-        list_of_datetimes = graph_object.read_data(2)
+        CSV_handler = csv_recording.CSVRecording()
+        list_of_datetimes = CSV_handler.read_data(2)
         self.assertGreaterEqual(1023,sorted(list_of_datetimes[1])[0])
         self.assertLessEqual(0,sorted(list_of_datetimes[1])[-1])
-    
+
 
 
 

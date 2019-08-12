@@ -28,7 +28,7 @@ class Schedule:
 
             self._tank_alarm.set_status(self._tank_measurement.get_tank_level())
 
-            self._moisture_level = self._moisture_interpreter.get_a2d_count()
+            self._moisture_level = self._moisture_interpreter.get_moisture_a2d()
             self._config.reload_if_modified()
             if self._should_water():
                 self._water()

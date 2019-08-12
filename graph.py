@@ -8,15 +8,12 @@ Created on Fri Aug  9 12:00:53 2019
 import matplotlib.pyplot as plt
 import datetime
 import random
-import csv
-import dateutil.relativedelta
+import csv_recording
+
 
 class GraphDrawer:
 
-    def __init__(self):
-        self.file_location = "data.csv"
-        self.max_time = datetime.datetime.now()
-        self.min_time = datetime.datetime.now() - dateutil.relativedelta.relativedelta(months=1)
+    def __init__(self):       
         self.point_shape = "*"
         #Point shape options
         #"." = point
@@ -46,23 +43,12 @@ class GraphDrawer:
                         y_fake_data.append(random.randrange(240 - (20*(hour-12)+20),240 - 20*(hour-12)))
         return [x_fake_data,y_fake_data]
 
-    def read_data(self, Setting):
-        """Setting: 1 for Moisture, 2 for Light Level """
-        xLine = []
-        yLine = []
-        with open(self.file_location) as csvDataFile:
-            csvReader = csv.reader(csvDataFile)
-            for row in csvReader:
-                date_time_of_row = datetime.datetime.strptime(row[0], "%Y/%m/%d %H:%M")
-                if self.min_time < date_time_of_row < self.max_time:
-                    xLine.append(date_time_of_row)
-                    yLine.append(float(row[Setting]))
-        return [xLine, yLine]
 
 
 
     def draw_light_level_graph(self):
-        plant_data = self.read_data(2)
+        CSV_handler = csv_recording.CSVRecording()
+        plant_data = CSV_handler.read_data(2)
         plt.figure(figsize=(14,5))
         plt.plot(plant_data[0],plant_data[1],c='b',marker= self.point_shape)
         plt.xlabel('Time', fontsize=16)
@@ -74,7 +60,8 @@ class GraphDrawer:
         plt.show()
 
     def draw_moisture_level_graph(self):
-        plant_data = self.read_data(1)
+        CSV_handler = csv_recording.CSVRecording()
+        plant_data = CSV_handler.read_data(1)
         plt.figure(figsize=(14,5))
         plt.plot(plant_data[0],plant_data[1],c='r',marker=self.point_shape)
         plt.xlabel('Time', fontsize=16)
@@ -87,6 +74,6 @@ class GraphDrawer:
 
 
 
-#Graph = GraphDrawer()
-#Graph.draw_light_level_graph()
-#Graph.draw_moisture_level_graph()
+Graph = GraphDrawer()
+Graph.draw_light_level_graph()
+Graph.draw_moisture_level_graph()
