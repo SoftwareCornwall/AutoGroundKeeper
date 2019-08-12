@@ -8,6 +8,7 @@ Created on Mon Aug 12 12:42:41 2019
 
 import time
 
+
 class Scheduler:
     def __init__(self):
         self.tasks = dict()
@@ -15,7 +16,7 @@ class Scheduler:
 
     def register_task(self, name, function, args):
         self.tasks[name] = (function, args)
-    
+
     def add_to_schedule(self, name, next_run_time):
         self.schedule.add((name, next_run_time))
 
@@ -27,4 +28,4 @@ class Scheduler:
                 function(*args)
                 tasks_to_remove.append((name, next_run_time))
         for item in tasks_to_remove:
-           self.schedule.remove(item)
+            self.schedule.remove(item)
