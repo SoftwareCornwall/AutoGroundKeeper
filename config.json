@@ -4,6 +4,7 @@
 "water_pumping_duration":2,
 "water_not_detected_thresshold": 5,
 "water_detected_by_incress": 20,
+"water_detected_timeout": 5,
 "check_frequency":5,
 "run_duration":null
 }
