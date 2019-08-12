@@ -1,1 +1,1 @@
-~/.local/bin/autopep8 --in-place --aggressive --aggressive *.py
+~/.local/bin/autopep8 --in-place --aggressive --aggressive *.py */*.py
