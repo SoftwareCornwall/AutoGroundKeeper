@@ -24,3 +24,7 @@ class ConfigHandler:
             return self.data[key]
         except KeyError:
             return None
+
+    def run(self, scheduler, name):
+        self.reload_if_modified()
+        scheduler.add_to_schedule(name, time.time() + 5)

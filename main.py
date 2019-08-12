@@ -5,6 +5,7 @@
 import scheduler
 import time
 
+import config_handler
 import tank_control
 import moisture_check
 
@@ -14,6 +15,11 @@ def main():
 
     schedule.register_task('stop', schedule.stop_scheduler)
     schedule.add_to_schedule('stop', time.time() + 10)  # 86400)
+
+    config = config_handler.ConfigHandler()
+    schedule.register_task('config_reload', config.run,
+                           (schedule, 'config_reload'))
+    schedule.add_to_schedule('config_reload', time.time())
 
     tank = tank_control.TankControl()
     schedule.register_task(
