@@ -16,4 +16,4 @@ class TankControl:
 
     def run(self, scheduler, name):
         self.update()
-        scheduler.add_to_schedule(name, time.time() + 1)
+        scheduler.add_to_schedule(name, time.time() + 5)
