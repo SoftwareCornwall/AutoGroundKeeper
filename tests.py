@@ -192,7 +192,7 @@ class MockSPI():
 class TestMoistureSensorInOut(unittest.TestCase):
     def setUp(self):
         self.interp = sensor_control.Sensor()
-        self.interp.moisture_sensor = MockSPI()
+        self.interp.MCP3002 = MockSPI()
 
     def test_data_is_converted_correctly(self):
         mock_data = [0b00000010, 0b11101011]
@@ -200,11 +200,11 @@ class TestMoistureSensorInOut(unittest.TestCase):
 
     def test_moisture_reading_is_taken_from_channel_0(self):
         self.interp.get_moisture_a2d()
-        self.assertEqual([0x60, 0x00], self.interp.moisture_sensor.transmitted)
+        self.assertEqual([0x60, 0x00], self.interp.MCP3002.transmitted)
 
     def test_light_reading_is_taken_from_channel_1(self):
         self.interp.get_light_a2d()
-        self.assertEqual([0x70, 0x00], self.interp.moisture_sensor.transmitted)
+        self.assertEqual([0x70, 0x00], self.interp.MCP3002.transmitted)
 
 
 class TestCSV(unittest.TestCase):
