@@ -2,7 +2,6 @@
 # pylint: disable=C0111
 import datetime
 import csv
-import dateutil.relativedelta
 
 
 class CSVRecording:
@@ -13,7 +12,7 @@ class CSVRecording:
             self._csvfile, delimiter=',', quotechar='"')
         self.max_time = datetime.datetime.now()
         self.min_time = datetime.datetime.now(
-        ) - dateutil.relativedelta.relativedelta(months=1)
+        ) - datetime.timedelta(days=31)
 
     def add_record(self, moisture, light_level, date=datetime.datetime.now):
         date = date.strftime('%Y/%m/%d %H:%M')
