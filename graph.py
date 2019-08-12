@@ -11,32 +11,30 @@ import csv_recording
 
 class GraphDrawer:
 
-    def __init__(self):       
+    def __init__(self):
         self.point_shape = "*"
-        #Point shape options
-        #"." = point
-        #"," = pixel
-        #"o" = circle
-        #"^" = triangle_up
-        #"v" = triangle_down
-        #"8" = octagon
-        #"s" = square
-        #"p" = pentagon
-        #"*" = star
-        #"h" = hexagon
-        #"+" = plus
-        #"D" = diamond
-
-
+        # Point shape options
+        # "." = point
+        # "," = pixel
+        # "o" = circle
+        # "^" = triangle_up
+        # "v" = triangle_down
+        # "8" = octagon
+        # "s" = square
+        # "p" = pentagon
+        # "*" = star
+        # "h" = hexagon
+        # "+" = plus
+        # "D" = diamond
 
     def draw_light_level_graph(self):
         CSV_handler = csv_recording.CSVRecording()
         plant_data = CSV_handler.read_data(2)
-        plt.figure(figsize=(14,5))
-        plt.plot(plant_data[0],plant_data[1],c='b',marker= self.point_shape)
+        plt.figure(figsize=(14, 5))
+        plt.plot(plant_data[0], plant_data[1], c='b', marker=self.point_shape)
         plt.xlabel('Time', fontsize=16)
         plt.ylabel('Light', fontsize=16)
-        plt.title('scatter plot - Light vs Time',fontsize=20)
+        plt.title('scatter plot - Light vs Time', fontsize=20)
         plt.gcf().autofmt_xdate()
         plt.grid(True)
         plt.savefig("LightLevelGraphImage.png", dpi=300)
@@ -45,16 +43,15 @@ class GraphDrawer:
     def draw_moisture_level_graph(self):
         CSV_handler = csv_recording.CSVRecording()
         plant_data = CSV_handler.read_data(1)
-        plt.figure(figsize=(14,5))
-        plt.plot(plant_data[0],plant_data[1],c='r',marker=self.point_shape)
+        plt.figure(figsize=(14, 5))
+        plt.plot(plant_data[0], plant_data[1], c='r', marker=self.point_shape)
         plt.xlabel('Time', fontsize=16)
         plt.ylabel('Moisture Level', fontsize=16)
-        plt.title('scatter plot - Moisture Level vs Time',fontsize=20)
+        plt.title('scatter plot - Moisture Level vs Time', fontsize=20)
         plt.gcf().autofmt_xdate()
         plt.grid(True)
         plt.savefig("MoistureLevelGraphImage.png", dpi=300)
         plt.show()
-
 
 
 Graph = GraphDrawer()
