@@ -18,7 +18,7 @@ class TestScheduler(unittest.TestCase):
         self.call_recording = CallRecording()
         self.schedule = scheduler.Scheduler()
         self.schedule.register_task(
-            'call_function', self.call_recording.call, ())
+            'call_function', self.call_recording.call)
 
     def tearDown(self):
         del self.call_recording
