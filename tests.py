@@ -24,7 +24,7 @@ class MockTime():
     Mock sleep function that records duration of all time.sleep calls.
     Example:
         >>> old_sleep = time.sleep
-        >>> mock_time = MockSleep()
+        >>> mock_time = MockTime()
         >>> time.sleep = mock_time.sleep
         >>> time.sleep(10)
         >>> time.sleep(3.2)
