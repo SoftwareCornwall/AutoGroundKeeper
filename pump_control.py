@@ -38,7 +38,8 @@ class Pump:
         self.start_pump()
         start_time = time.time()
 
-        while moisture_sencor.get_moisture_a2d() <= start_moisture_value + moisture_thresshold:
+        while moisture_sencor.get_moisture_a2d() <= start_moisture_value + \
+                moisture_thresshold:
             time.sleep(1)    # sleep for 1/4 of a second.
 
             if start_time + timeout < time.time():
