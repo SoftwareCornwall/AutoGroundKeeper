@@ -2,12 +2,24 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=C0111
 
-import schedule_control
+import scheduler
+import time
+
+import tank_control
 
 
 def main():
-    schedule = schedule_control.Schedule()
-    schedule.run()
+    schedule = scheduler.Scheduler()
+
+    schedule.register_task('stop', schedule.stop_scheduler)
+    schedule.add_to_schedule('stop', time.time() + 10)  # 86400)
+
+    tank = tank_control.TankControl()
+    schedule.register_task(
+        'update_leds', tank.run, (schedule, 'update_leds'))
+    schedule.add_to_schedule('update_leds', time.time())
+
+    schedule.run_scheduler()
 
 
 if __name__ == '__main__':
