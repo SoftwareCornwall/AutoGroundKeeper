@@ -97,16 +97,6 @@ class TestPumpControl(unittest.TestCase):
         self.pump.stop_pump()
         self.assertEqual(0, self.pump.pump.value)
 
-#    def test_water_recived_by_sensor(self):
-#        moisture_sensor = MockSensor()
-#        start_moisture_level = moisture_sensor.get_a2d_count()
-#
-#        self.pump.enable_pump_until_moisture_sencor_is_saturated_for_duration(2,
-#                                                                              moisture_sensor,
-#                                                                              start_moisture_level,
-#                                                                              50,
-#                                                                              5)
-#        self.assertTrue(moisture_sensor.get_a2d_count() > start_moisture_level)
 
 class TestPumpSchedule(unittest.TestCase):
     def test_water_recived_by_sensor(self):
