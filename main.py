@@ -26,7 +26,7 @@ def main():
         moisture.run,
         (schedule,
          'check_moisture_level'))
-    schedule.add_to_schedule('update_leds', time.time())
+    schedule.add_to_schedule('check_moisture_level', time.time())
 
     schedule.run_scheduler()
 
