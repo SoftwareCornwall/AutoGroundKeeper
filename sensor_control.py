@@ -16,8 +16,11 @@ class Sensor:
         self.moisture_sensor.open(0, 0)
         self.moisture_sensor.max_speed_hz = 5000
 
-    def convert_data(self, data_array):
-        return (data_array[0] * 256) + (data_array[1])
+    def convert_data(self, byte_array):
+        '''Strips unneeded bits to avoid errors'''
+        byte_1 = (byte_array[0] & 0x03) << 8
+        byte_2 = byte_array[1]
+        return byte_1 + byte_2
 
     def get_a2d_count(self):
         data = self.moisture_sensor.xfer([0x60, 0x00])
