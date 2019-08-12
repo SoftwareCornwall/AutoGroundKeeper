@@ -23,7 +23,7 @@ class Scheduler:
 
     def run_tasklist_once(self):
         tasks_to_remove = []
-        for (name, next_run_time) in self.schedule:
+        for (name, next_run_time) in list(self.schedule):
             if next_run_time < time.time():
                 (function, args) = self.tasks[name]
                 function(*args)
