@@ -27,8 +27,8 @@ class GraphDrawer:
         # "+" = plus
         # "D" = diamond
 
-    def draw_light_level_graph(self):
-        CSV_handler = csv_recording.CSVRecording()
+    def draw_light_level_graph(self, name="data.csv"):
+        CSV_handler = csv_recording.CSVRecording(name)
         plant_data = CSV_handler.read_data(2)
         plt.figure(figsize=(14, 5))
         plt.plot(plant_data[0], plant_data[1], c='b', marker=self.point_shape)
@@ -40,8 +40,8 @@ class GraphDrawer:
         plt.savefig("LightLevelGraphImage.png", dpi=300)
         plt.show()
 
-    def draw_moisture_level_graph(self):
-        CSV_handler = csv_recording.CSVRecording()
+    def draw_moisture_level_graph(self, name="data.csv"):
+        CSV_handler = csv_recording.CSVRecording(name)
         plant_data = CSV_handler.read_data(1)
         plt.figure(figsize=(14, 5))
         plt.plot(plant_data[0], plant_data[1], c='r', marker=self.point_shape)
@@ -55,5 +55,5 @@ class GraphDrawer:
 
 
 Graph = GraphDrawer()
-Graph.draw_light_level_graph()
-Graph.draw_moisture_level_graph()
+Graph.draw_light_level_graph("fake_data.csv")
+Graph.draw_moisture_level_graph("fake_data.csv")

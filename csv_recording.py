@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=C0111
-import time
 import datetime
 import csv
 import dateutil.relativedelta
@@ -8,16 +7,16 @@ import dateutil.relativedelta
 
 class CSVRecording:
     def __init__(self, name='data.csv'):
-        self._csvfile = open(name, 'a')
         self.file_location = name
+        self._csvfile = open(self.file_location, 'a')
         self._csvwriter = csv.writer(
-            self._csvfile, delimiter=',', quotechar='"')
+        self._csvfile, delimiter=',', quotechar='"')
         self.max_time = datetime.datetime.now()
         self.min_time = datetime.datetime.now(
         ) - dateutil.relativedelta.relativedelta(months=1)
 
-    def add_record(self, moisture, light_level):
-        date = time.strftime('%Y/%m/%d %H:%M')
+    def add_record(self, moisture, light_level, date=datetime.datetime.now):
+        date = date.strftime('%Y/%m/%d %H:%M')
         self._csvwriter.writerow([date, moisture, light_level])
 
     def close(self):
