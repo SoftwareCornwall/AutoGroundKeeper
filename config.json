@@ -2,6 +2,8 @@
 "interval":10,
 "moisture_level_threshold":800,
 "water_pumping_duration":2,
+"water_not_detected_thresshold": 5,
+"water_detected_bu_incress": 20,
 "check_frequency":5,
 "run_duration":null
 }
