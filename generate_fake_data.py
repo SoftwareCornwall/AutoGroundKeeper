@@ -22,7 +22,7 @@ class GenerateFakeData:
                         y_fake_data.append(random.randrange(
                             240 - (20 * (hour - 12) + 20), 240 - 20 * (hour - 12)))
         return [x_fake_data, y_fake_data]
-        
+
     def generate_fake_data_for_file(self, name):
         time_fake_data = []
         light_fake_data = []
@@ -45,11 +45,16 @@ class GenerateFakeData:
                             240 - (20 * (hour - 12) + 20), 240 - 20 * (hour - 12)))
                         moisture_fake_data.append(random.randrange(
                             240 - (20 * (hour - 12) + 20), 240 - 20 * (hour - 12)))
-                        
+
         fake_data_file = csv_recording.CSVRecording(name)
-        for row in range (0, len(time_fake_data)):
-            fake_data_file.add_record(moisture_fake_data[row], light_fake_data[row], time_fake_data[row])
-        fake_data_file.close()  
+        for row in range(0, len(time_fake_data)):
+            fake_data_file.add_record(
+                moisture_fake_data[row],
+                light_fake_data[row],
+                time_fake_data[row])
+        fake_data_file.close()
+
+
 fake_data = GenerateFakeData()
 
 fake_data.generate_fake_data_for_file("fake_data.csv")

@@ -10,7 +10,7 @@ class CSVRecording:
         self.file_location = name
         self._csvfile = open(self.file_location, 'a')
         self._csvwriter = csv.writer(
-        self._csvfile, delimiter=',', quotechar='"')
+            self._csvfile, delimiter=',', quotechar='"')
         self.max_time = datetime.datetime.now()
         self.min_time = datetime.datetime.now(
         ) - dateutil.relativedelta.relativedelta(months=1)
