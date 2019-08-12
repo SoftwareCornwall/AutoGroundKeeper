@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 import time
-import sensor_control
 
 
 class MoistureCheck:
-    def __init__(self, config):
+    def __init__(self, config, sensors):
         self._config = config
-        self._moisture_sensor = sensor_control.Sensor()
+        self._moisture_sensor = sensors
         self._last_water = time.time()
         self._moisture_level = 0
 
