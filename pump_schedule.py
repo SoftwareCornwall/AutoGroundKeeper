@@ -12,7 +12,7 @@ class Watering_Schedule():
         self.water_not_detected_thresshold = 0
         self.water_detected_by_incress = 0
         self.timeout = 0
-        self.pumping_duration
+        self.pumping_duration = 0
         self.update_from_config()
         
     def update_from_config(self):
@@ -25,16 +25,17 @@ class Watering_Schedule():
         
         start_time = time.time()
         start_moist_value = self.moisture_sensor.get_a2d_count();
+        current_moist_value = self.moisture_sensor.get_a2d_count()
 
-        while self.moisture_sensor.get_a2d_count() <= start_moist_value + self.water_thresshold:
+        while current_moist_value <= start_moist_value + self.water_thresshold:
+            current_moist_value = self.moisture_sensor.get_a2d_count()
             time.sleep(0.1)    # sleep for 1/10 of a second.
 
             if start_time + self.timeout < time.time():
                 print("Error: Moisture Not Detected within timeout :(")
                 break   # Error: we have not recived water with in the timeout :|
 
-
-        print("Final moisture value: ", self.moisture_sensor.get_a2d_count())
+        print("Final moisture value: ", current_moist_value)
 
         time.sleep(self._config.data["water_pumping_duration"])
 
