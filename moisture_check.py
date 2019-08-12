@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import time
-import config_handler
 import sensor_control
 
 class MoistureCheck:
@@ -12,14 +11,17 @@ class MoistureCheck:
         
     def _should_water(self):
         self._moisture_level = self._moisture_sensor.get_moisture_a2d()
-        moisture_low = (self._moisture_level < self._config['moisture_level_threshold'])
-        interval_exceeded = ((time.time() - self._last_water) > self._config.data['interval'])        
-        if moisture_low and interval_exceeded
-            _last_water = time.time()
+        if (self._moisture_level < self._config['moisture_level_threshold']):      
+            self._last_water = time.time()
             #call watering function
-            
+            return 1
+        else:
+            return 0
     
     def run(self, scheduler, name):
-        self._should_water()
-        scheduler.add_to_schedule(name, time.time() + _config["check_frequency"])
+        if self._should_water() == 1:
+            wait_time = self._config['interval']
+        else:
+            wait_time = self._config['check_frequency']
+        scheduler.add_to_schedule(name, time.time() + wait_time)
         
