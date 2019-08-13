@@ -117,8 +117,6 @@ class TestPumpSchedule(unittest.TestCase):
     def test_pump_starts(self):
         moisture_sensor = MockSensor()
 
-       
-
         with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
             self.assertEqual(1, pump_sch.pump.pump.value)
             pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
@@ -129,7 +127,7 @@ class TestPumpSchedule(unittest.TestCase):
         with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
             pump = pump_sch.pump
             pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
-            
+
         self.assertEqual(0, pump.pump.value)
 
 
@@ -151,7 +149,6 @@ class TestTankAlarm(unittest.TestCase):
         self.tank_alarm.set_status(0)
         self.assertEqual(0, self.tank_alarm._green.value)
         self.assertEqual(1, self.tank_alarm._red.value)
-
 
 
 class MockSPI():

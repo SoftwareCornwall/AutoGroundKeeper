@@ -14,7 +14,6 @@ import gpiozero
 class Pump:
     def __init__(self):
         self.pump = gpiozero.LED(17)
-        
 
     def start_pump(self):
         self.pump.on()
