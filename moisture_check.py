@@ -26,6 +26,7 @@ class MoistureCheck:
 
         if self._should_water():
             with pump_schedule.Watering_Schedule(self._moisture_sensor) as pump_sch:
+                pump_sch._config = self._config
                 pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
 
         wait_time = self.get_next_interval()
