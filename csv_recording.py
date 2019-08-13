@@ -23,7 +23,8 @@ class CSVRecording:
             now.microsecond,
             now.tzinfo)
 
-    def add_record(self, moisture, light_level, date=datetime.datetime.now):
+
+    def add_record(self, moisture, light_level, date = datetime.datetime.now):
         date = date().strftime('%Y/%m/%d %H:%M')
         self._csvwriter.writerow([date, moisture, light_level])
 
