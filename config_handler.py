@@ -18,3 +18,13 @@ class ConfigHandler:
     def reload_if_modified(self):
         if os.path.getmtime('config.json') > self.last_loaded:
             self.load()
+
+    def __getitem__(self, key):
+        try:
+            return self.data[key]
+        except KeyError:
+            return None
+
+    def run(self, scheduler, name):
+        self.reload_if_modified()
+        scheduler.add_to_schedule(name, time.time() + 5)

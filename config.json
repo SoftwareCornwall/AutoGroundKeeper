@@ -6,5 +6,6 @@
 "water_detected_by_incress":20,
 "water_detected_timeout":5,
 "check_frequency":5,                
-"run_duration":null
+"run_duration":null,
+"record_interval":60
 }

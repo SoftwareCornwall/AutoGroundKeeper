@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# pylint: disable=C0111
+# pylint: disable=C0111,R0913
 """
 Created on Tue Aug  6 15:34:58 2019
 
@@ -24,3 +24,4 @@ class Pump:
         self.start_pump()
         time.sleep(duration)
         self.stop_pump()
+

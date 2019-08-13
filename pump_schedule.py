@@ -31,14 +31,14 @@ class Watering_Schedule():
 #        self.pump.start_pump()
         
         start_time = time.time()
-        start_moist_value = self.moisture_sensor.get_a2d_count();
-        current_moist_value = self.moisture_sensor.get_a2d_count()
+        start_moist_value = self.moisture_sensor.get_moisture_a2d();
+        current_moist_value = self.moisture_sensor.get_moisture_a2d()
         timedout = False
 
         print("Start moisture value: ", current_moist_value)
 
         while current_moist_value <= start_moist_value + self.water_thresshold:
-            current_moist_value = self.moisture_sensor.get_a2d_count()
+            current_moist_value = self.moisture_sensor.get_moisture_a2d()
             time.sleep(0.1)    # sleep for 1/10 of a second.
 
             if start_time + self.timeout < time.time():
