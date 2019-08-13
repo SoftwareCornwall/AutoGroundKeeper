@@ -12,6 +12,13 @@ import record_data
 import sensor_control
 
 
+def check_for_stop(schedule, name, config, start_time):
+    if config['run_duration'] is not None:
+        if time.time() > start_time + config['run_duration']:
+            schedule.stop_scheduler()
+    schedule.add_to_schedule('stop', time.time() + 5)
+
+
 def main():
     schedule = scheduler.Scheduler()
 
@@ -22,8 +29,14 @@ def main():
 
     sensors = sensor_control.Sensor()
 
-    schedule.register_task('stop', schedule.stop_scheduler)
-    schedule.add_to_schedule('stop', time.time() + 10)  # 86400)
+    schedule.register_task(
+        'stop',
+        check_for_stop,
+        (schedule,
+         'stop',
+         config,
+         time.time()))
+    schedule.add_to_schedule('stop', time.time())  # 86400)
 
     tank = tank_control.TankControl()
     schedule.register_task(
@@ -40,7 +53,7 @@ def main():
 
     recorder = record_data.RecordData(config, sensors)
     schedule.register_task(
-        'update_csv', recorder.run(), (schedule, 'update_csv'))
+        'update_csv', recorder.run, (schedule, 'update_csv'))
     schedule.add_to_schedule('update_csv', time.time())
     schedule.run_scheduler()
 
