@@ -24,4 +24,3 @@ class Pump:
         self.start_pump()
         time.sleep(duration)
         self.stop_pump()
-
