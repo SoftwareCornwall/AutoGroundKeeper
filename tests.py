@@ -12,6 +12,7 @@ import time
 
 
 import pump_control
+import pump_schedule
 import schedule_control
 import sensor_control
 import tank_alarm
@@ -99,13 +100,40 @@ class TestPumpControl(unittest.TestCase):
         self.pump.stop_pump()
         self.assertEqual(0, self.pump.pump.value)
 
+
+class TestPumpSchedule(unittest.TestCase):
     def test_water_recived_by_sensor(self):
+
         moisture_sensor = MockSensor()
+
         start_moisture_level = moisture_sensor.get_moisture_a2d()
-        self.pump.enable_pump_until_saturated_for_duration(
-            2, moisture_sensor, start_moisture_level, 50, 5)
+
+        pump = pump_control.Pump()
+
+        with pump_schedule.Watering_Schedule(moisture_sensor, pump) as pump_sch:
+            pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
+
         self.assertTrue(moisture_sensor.get_moisture_a2d()
                         > start_moisture_level)
+
+    def test_pump_starts(self):
+        moisture_sensor = MockSensor()
+
+        pump = pump_control.Pump()
+
+        with pump_schedule.Watering_Schedule(moisture_sensor, pump) as pump_sch:
+            self.assertEqual(1, pump.pump.value)
+            pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
+
+    def test_pump_stops(self):
+        moisture_sensor = MockSensor()
+
+        pump = pump_control.Pump()
+
+        with pump_schedule.Watering_Schedule(moisture_sensor, pump) as pump_sch:
+            pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
+
+        self.assertEqual(0, pump.pump.value)
 
 
 class TestTankAlarm(unittest.TestCase):

@@ -5,6 +5,7 @@
 import time
 
 import pump_control
+import pump_schedule
 import sensor_control
 import config_handler
 import tank_measurement
@@ -21,6 +22,8 @@ class Schedule:
         self._moisture_interpreter = sensor_control.Sensor()
         self._tank_measurement = tank_measurement.TankMeasurement()
         self._tank_alarm = tank_alarm.TankAlarm()
+        self._watering_Schedule = pump_schedule.Watering_Schedule(
+            self._moisture_interpreter, self._pump)
 
     def run(self):
         while (self._config.data['run_duration'] is None
@@ -53,11 +56,7 @@ class Schedule:
 
     def _water(self):
 
-        self._pump.enable_pump_until_saturated_for_duration(
-            self._config.data['water_pumping_duration'],
-            self._moisture_interpreter,
-            self._moisture_level,
-        )
+        self._watering_Schedule.enable_pump_until_moisture_sencor_is_saturated_for_duration()
 
         self._last_watered = time.time()
         if self._config.data['run_duration'] is not None:

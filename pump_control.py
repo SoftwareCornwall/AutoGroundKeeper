@@ -24,30 +24,3 @@ class Pump:
         self.start_pump()
         time.sleep(duration)
         self.stop_pump()
-
-    def enable_pump_until_saturated_for_duration(self,
-                                                 duration,
-                                                 moisture_sencor,
-                                                 start_moisture_value,
-                                                 moisture_thresshold=50,
-                                                 timeout=5
-                                                 ):
-        # start the pump and wait till the moisture sencor value goes above the
-        # thresshold. -> continued by waiting for the duration and stoping the
-        # pump
-        self.start_pump()
-        start_time = time.time()
-
-        while moisture_sencor.get_moisture_a2d() <= start_moisture_value + \
-                moisture_thresshold:
-            time.sleep(1)    # sleep for 1/4 of a second.
-
-            if start_time + timeout < time.time():
-                print("Error: Moisture Not Detected within timeout :(")
-                break   # Error: we have not recived water with in the timeout :|
-
-        print("End Mois Value:", moisture_sencor.get_moisture_a2d())
-
-        time.sleep(duration)
-
-        self.stop_pump()
