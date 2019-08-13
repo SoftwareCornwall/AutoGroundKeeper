@@ -6,6 +6,7 @@ Created on Tue Aug  6 15:34:58 2019
 @author: pi
 """
 import time
+import sys
 
 import gpiozero
 
@@ -24,4 +25,3 @@ class Pump:
         self.start_pump()
         time.sleep(duration)
         self.stop_pump()
-

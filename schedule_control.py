@@ -22,7 +22,8 @@ class Schedule:
         self._moisture_interpreter = sensor_control.Sensor()
         self._tank_measurement = tank_measurement.TankMeasurement()
         self._tank_alarm = tank_alarm.TankAlarm()
-        self._watering_Schedule = pump_schedule.Watering_Schedule(self._moisture_interpreter, self._pump)
+        self._watering_Schedule = pump_schedule.Watering_Schedule(
+            self._moisture_interpreter, self._pump)
 
     def run(self):
         while (self._config.data['run_duration'] is None

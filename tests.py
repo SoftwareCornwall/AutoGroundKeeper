@@ -103,37 +103,33 @@ class TestPumpControl(unittest.TestCase):
 
 class TestPumpSchedule(unittest.TestCase):
     def test_water_recived_by_sensor(self):
-        
+
         moisture_sensor = MockSensor()
 
         start_moisture_level = moisture_sensor.get_moisture_a2d()
-        
-        pump = pump_control.Pump()
-        
-        with pump_schedule.Watering_Schedule(moisture_sensor, pump) as pump_sch:
+
+        with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
             pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
-            
-        
-        self.assertTrue(moisture_sensor.get_moisture_a2d() > start_moisture_level)
-        
+
+        self.assertTrue(moisture_sensor.get_moisture_a2d()
+                        > start_moisture_level)
+
     def test_pump_starts(self):
         moisture_sensor = MockSensor()
-        
-        pump = pump_control.Pump()
-        
-        with pump_schedule.Watering_Schedule(moisture_sensor, pump) as pump_sch:
-            self.assertEqual(1, pump.pump.value)
+
+        with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
+            self.assertEqual(1, pump_sch.pump.pump.value)
             pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
 
     def test_pump_stops(self):
         moisture_sensor = MockSensor()
-        
-        pump = pump_control.Pump()
-        
-        with pump_schedule.Watering_Schedule(moisture_sensor, pump) as pump_sch:
+
+        with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
+            pump = pump_sch.pump
             pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
-            
+
         self.assertEqual(0, pump.pump.value)
+
 
 class TestTankAlarm(unittest.TestCase):
     def setUp(self):
@@ -153,63 +149,6 @@ class TestTankAlarm(unittest.TestCase):
         self.tank_alarm.set_status(0)
         self.assertEqual(0, self.tank_alarm._green.value)
         self.assertEqual(1, self.tank_alarm._red.value)
-
-
-class TestSchedule(unittest.TestCase):
-    def setUp(self):
-        self.mock_time = MockTime()
-        self.mock_sensor = MockSensor(0.1)
-        schedule_control.time = self.mock_time
-        schedule_control.pump_control.time = self.mock_time
-        self.schedule = schedule_control.Schedule()
-        self.schedule._moisture_interpreter = self.mock_sensor
-
-    def tearDown(self):
-        schedule_control.time = time
-        schedule_control.pump_control.time = time
-        del self.schedule
-
-    def test_watering_duration_is_amount(self):
-        return
-        self.schedule._config.data['water_pumping_duration'] = 2
-        self.schedule._water()
-        self.assertEqual(2, sum(self.mock_time.sleep_history))
-
-    def test_total_sleep_is_runtime(self):
-        return
-        self.schedule._config.data['run_duration'] = 24 * 3600
-        self.schedule._config.data['check_frequency'] = 15 * 60
-
-        self.schedule.run()
-        self.assertEqual(24 * 3600, sum(self.mock_time.sleep_history))
-
-    def test_should_water_returns_true_when_moisture_level_below_threshold(
-            self):
-        self.schedule._moisture_level = 600
-        self.schedule._config.data['moisture_level_threshold'] = 800
-        self.assertTrue(self.schedule._should_water())
-
-    def test_should_water_returns_false_when_moisture_level_above_threshold(
-            self):
-        self.schedule._moisture_level = 900
-        self.schedule._config.data['moisture_level_threshold'] = 800
-        self.assertFalse(self.schedule._should_water())
-
-    def test_should_water_false_when_recently_watered(self):
-        self.schedule._config.data['interval'] = 3 * 3600
-        self.schedule._moisture_level = 600
-        self.schedule._config.data['moisture_level_threshold'] = 800
-        self.schedule._water()
-        self.assertFalse(self.schedule._should_water())
-
-    def test_should_water_returns_true_when_not_recently_watered(self):
-        self.schedule._config.data['interval'] = 3 * 3600
-        self.schedule._moisture_level = 600
-        self.schedule._config.data['moisture_level_threshold'] = 800
-        self.mock_time.set_time(0)
-        self.schedule._water()
-        self.mock_time.set_time(3 * 3600 + 1)
-        self.assertTrue(self.schedule._should_water())
 
 
 class MockSPI():
