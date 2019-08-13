@@ -40,7 +40,7 @@ def main():
 
     recorder = record_data.RecordData(config, sensors)
     schedule.register_task(
-        'update_csv', recorder.run(), (schedule, 'update_csv'))
+        'update_csv', recorder.run, (schedule, 'update_csv'))
     schedule.add_to_schedule('update_csv', time.time())
     schedule.run_scheduler()
 
