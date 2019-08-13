@@ -35,7 +35,7 @@ class GraphDrawer:
         plt.figure(figsize=(14, 5))
         plt.plot(plant_data[0], plant_data[1], c='b', marker=self.point_shape)
         plt.xlabel('Time', fontsize=16)
-        plt.ylabel('Light', fontsize=16)               
+        plt.ylabel('Light', fontsize=16)
         plt.title('scatter plot - Light vs Time', fontsize=20)
         plt.gcf().axes[0].xaxis.set_major_formatter(self.formatter)
         plt.grid(True)
