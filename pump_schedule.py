@@ -50,7 +50,7 @@ class Watering_Schedule():
 
         print("Final moisture value: ", current_moist_value)
 
-        if timedout:
+        if not timedout:
             time.sleep(self._config.data["water_pumping_duration"])
 
 #        self.pump.stop_pump()
