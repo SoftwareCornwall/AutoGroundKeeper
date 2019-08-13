@@ -30,7 +30,7 @@ class GenerateFakeData:
         light_fake_data = []
         moisture_fake_data = []
         for month in range(7, 9):
-            for day in range(1, 28):
+            for day in range(1, 32):
                 for hour in range(1, 24):
                     for minute in range(0, 60, 15):
                         time_fake_data.append(
