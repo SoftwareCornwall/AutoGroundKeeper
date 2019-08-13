@@ -10,12 +10,21 @@ class CSVRecording:
         self._csvfile = open(self.file_location, 'a')
         self._csvwriter = csv.writer(
             self._csvfile, delimiter=',', quotechar='"')
-        self.max_time = datetime.datetime.now()
-        self.min_time = datetime.datetime.now(
-        ) - datetime.timedelta(days=31)
+        self.max_time = now = datetime.datetime.now()
+        self.min_time = datetime.datetime(
+            now.year if now.month != 1 else now.year -
+            1,
+            now.month -
+            1 if now.month != 1 else 12,
+            now.day,
+            now.hour,
+            now.minute,
+            now.second,
+            now.microsecond,
+            now.tzinfo)
 
     def add_record(self, moisture, light_level, date=datetime.datetime.now):
-        date = date.strftime('%Y/%m/%d %H:%M')
+        date = date().strftime('%Y/%m/%d %H:%M')
         self._csvwriter.writerow([date, moisture, light_level])
 
     def close(self):
