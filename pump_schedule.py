@@ -1,14 +1,14 @@
 
 import time
 import config_handler
-
+import pump_control
 
 class Watering_Schedule():
 
-    def __init__(self, moist_sensor, pum):
+    def __init__(self, moist_sensor):
         self._config = config_handler.ConfigHandler()
         self.moisture_sensor = moist_sensor
-        self.pump = pum
+        self.pump = pump_control.Pump()
         # vars set from config
         self.water_not_detected_thresshold = 0
         self.water_detected_by_incress = 0
@@ -27,6 +27,7 @@ class Watering_Schedule():
 
     def __exit__(self, type, value, traceback):
         self.pump.stop_pump()
+        
 
     def enable_pump_until_moisture_sencor_is_saturated_for_duration(self):
         #        self.pump.start_pump()
