@@ -24,12 +24,8 @@ class Sensor:
 
     def get_moisture_a2d(self):
         data = self.MCP3002.xfer([0x60, 0x00])
-        moisture_level = self.convert_data(data)
-        print(moisture_level)
-        return moisture_level
+        return self.convert_data(data)
 
     def get_light_a2d(self):
         data = self.MCP3002.xfer([0x70, 0x00])
-        light_level = self.convert_data(data)
-        print(light_level)
-        return light_level
+        return self.convert_data(data)
