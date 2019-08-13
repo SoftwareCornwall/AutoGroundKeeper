@@ -57,5 +57,5 @@ class GraphDrawer:
 
 
 Graph = GraphDrawer()
-Graph.draw_light_level_graph("data.csv")
-Graph.draw_moisture_level_graph("data.csv")
+Graph.draw_light_level_graph("fake_data.csv")
+Graph.draw_moisture_level_graph("fake_data.csv")
