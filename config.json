@@ -4,5 +4,5 @@
 "water_pumping_duration":2,
 "check_frequency":5,
 "run_duration":null,
-"record_interval":900
+"record_interval":60
 }
