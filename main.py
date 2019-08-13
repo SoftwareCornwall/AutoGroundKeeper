@@ -38,7 +38,7 @@ def main():
          time.time()))
     schedule.add_to_schedule('stop', time.time())  # 86400)
 
-    tank = tank_control.TankControl()
+    tank = tank_control.TankControl(config)
     schedule.register_task(
         'update_leds', tank.run, (schedule, 'update_leds'))
     schedule.add_to_schedule('update_leds', time.time())

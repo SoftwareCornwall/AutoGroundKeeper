@@ -6,9 +6,9 @@ import time
 
 
 class TankControl:
-    def __init__(self):
+    def __init__(self, config=None):
         self._tank_measurement = tank_measurement.TankMeasurement()
-        self._tank_alarm = tank_alarm.TankAlarm()
+        self._tank_alarm = tank_alarm.TankAlarm(config)
 
     def update(self):
         self._tank_alarm.set_status(
