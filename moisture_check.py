@@ -14,13 +14,11 @@ class MoistureCheck:
         if (self._moisture_level < self._config['moisture_level_threshold']):
             self._last_water = time.time()
             # call watering function
-            return 1
+            return self._config['interval']
         else:
-            return 0
+            return self._config['check_frequency']
 
     def run(self, scheduler, name):
-        if self._should_water() == 1:
-            wait_time = self._config['interval']
-        else:
-            wait_time = self._config['check_frequency']
+        wait_time = self._should_water()
+        
         scheduler.add_to_schedule(name, time.time() + wait_time)
