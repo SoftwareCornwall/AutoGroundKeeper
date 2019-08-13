@@ -20,5 +20,5 @@ class MoistureCheck:
 
     def run(self, scheduler, name):
         wait_time = self._should_water()
-        
+
         scheduler.add_to_schedule(name, time.time() + wait_time)
