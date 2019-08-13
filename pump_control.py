@@ -6,6 +6,7 @@ Created on Tue Aug  6 15:34:58 2019
 @author: pi
 """
 import time
+import sys
 
 import gpiozero
 
@@ -13,6 +14,7 @@ import gpiozero
 class Pump:
     def __init__(self):
         self.pump = gpiozero.LED(17)
+        
 
     def start_pump(self):
         self.pump.on()
