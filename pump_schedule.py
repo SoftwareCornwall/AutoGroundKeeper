@@ -2,6 +2,7 @@
 import time
 import config_handler
 import pump_control
+import tank_measurement
 
 
 class Watering_Schedule():
@@ -16,6 +17,9 @@ class Watering_Schedule():
         self.timeout = 0
         self.pumping_duration = 0
         self.update_from_config()
+        self.pumping_allowed = True
+        self.status = tank_measurement.TankMeasurement()
+        self.status_level = self.status.get_tank_level()
 
     def update_from_config(self):
         self.water_thresshold = self._config.data[
@@ -26,7 +30,8 @@ class Watering_Schedule():
             "water_detected_timeout"]
 
     def __enter__(self):
-        self.pump.start_pump()
+        if self.status_level > 0:
+            self.pump.start_pump()
         return self
 
     def __exit__(self, type, value, traceback):
