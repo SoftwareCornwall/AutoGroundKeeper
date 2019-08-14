@@ -18,9 +18,12 @@ class Watering_Schedule():
         self.update_from_config()
 
     def update_from_config(self):
-        self.water_thresshold = self._config.data["water_not_detected_thresshold"]
-        self.water_detected_by_incress = self._config.data["water_detected_by_incress"]
-        self.timeout = self._config.data["water_detected_timeout"]
+        self.water_thresshold = self._config.data[
+            "water_not_detected_thresshold"]
+        self.water_detected_by_incress = self._config.data[
+            "water_detected_by_incress"]
+        self.timeout = self._config.data[
+            "water_detected_timeout"]
 
     def __enter__(self):
         self.pump.start_pump()
@@ -46,7 +49,7 @@ class Watering_Schedule():
             if start_time + self.timeout < time.time():
                 timedout = True
                 print("Error: Moisture Not Detected within timeout :(")
-                break   # Error: we have not recived water with in the timeout :|
+                break  # Error: we have not recived water within the timeout :|
 
         print("Final moisture value: ", current_moist_value)
 

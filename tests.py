@@ -13,11 +13,11 @@ import time
 
 import pump_control
 import pump_schedule
-import schedule_control
 import sensor_control
 import tank_alarm
 
 import csv_recording
+
 
 def enable_test_time_config(conf):
     '''
@@ -28,7 +28,6 @@ def enable_test_time_config(conf):
     conf.data["water_pumping_duration"] = 0.5
     conf.data["water_not_detected_thresshold"] = 2
     conf.data["water_detected_timeout"] = 2
-    
 
 
 class MockTime():
@@ -121,8 +120,9 @@ class TestPumpSchedule(unittest.TestCase):
 
         with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
             pump_sch._config.diable_reload = True
-            enable_test_time_config( pump_sch._config )
-            pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
+            enable_test_time_config(pump_sch._config)
+            (pump_sch.
+             enable_pump_until_moisture_sencor_is_saturated_for_duration())
 
         self.assertTrue(moisture_sensor.get_moisture_a2d()
                         > start_moisture_level)
@@ -132,18 +132,20 @@ class TestPumpSchedule(unittest.TestCase):
 
         with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
             pump_sch._config.diable_reload = True
-            enable_test_time_config( pump_sch._config )
+            enable_test_time_config(pump_sch._config)
             self.assertEqual(1, pump_sch.pump.pump.value)
-            pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
+            (pump_sch.
+             enable_pump_until_moisture_sencor_is_saturated_for_duration())
 
     def test_pump_stops(self):
         moisture_sensor = MockSensor(1)
 
         with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
             pump_sch._config.diable_reload = True
-            enable_test_time_config( pump_sch._config )
+            enable_test_time_config(pump_sch._config)
             pump = pump_sch.pump
-            pump_sch.enable_pump_until_moisture_sencor_is_saturated_for_duration()
+            (pump_sch.
+             enable_pump_until_moisture_sencor_is_saturated_for_duration())
 
         self.assertEqual(0, pump.pump.value)
 

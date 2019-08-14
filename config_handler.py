@@ -17,7 +17,8 @@ class ConfigHandler:
         self.last_loaded = time.time()
 
     def reload_if_modified(self):
-        if not self.disable_reload and os.path.getmtime('config.json') > self.last_loaded:
+        if not self.disable_reload and os.path.getmtime(
+                'config.json') > self.last_loaded:
             self.load()
 
     def __getitem__(self, key):

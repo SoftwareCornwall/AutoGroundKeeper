@@ -33,7 +33,8 @@ class GraphDrawer:
         CSV_handler = csv_recording.CSVRecording(name)
         plant_data = CSV_handler.read_data(2)
         plt.figure(figsize=(14, 5))
-        plt.plot(plant_data[0], plant_data[1], c='b', marker=self.point_shape) #linewidth = 0
+        plt.plot(plant_data[0], plant_data[1], c='b',
+                 marker=self.point_shape)  # linewidth = 0
         plt.xlabel('Time', fontsize=16)
         plt.ylabel('Light', fontsize=16)
         plt.title('scatter plot - Light vs Time', fontsize=20)

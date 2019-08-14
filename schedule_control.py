@@ -32,7 +32,8 @@ class Schedule:
             self._tank_alarm.set_status(
                 self._tank_measurement.get_tank_level())
 
-            self._moisture_level = self._moisture_interpreter.get_moisture_a2d()
+            self._moisture_level = (
+                self._moisture_interpreter.get_moisture_a2d())
             self._config.reload_if_modified()
             if self._should_water():
                 self._water()
@@ -56,7 +57,8 @@ class Schedule:
 
     def _water(self):
 
-        self._watering_Schedule.enable_pump_until_moisture_sencor_is_saturated_for_duration()
+        (self._watering_Schedule.
+         enable_pump_until_moisture_sencor_is_saturated_for_duration())
 
         self._last_watered = time.time()
         if self._config.data['run_duration'] is not None:

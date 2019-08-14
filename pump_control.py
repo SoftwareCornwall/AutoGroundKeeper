@@ -6,7 +6,6 @@ Created on Tue Aug  6 15:34:58 2019
 @author: pi
 """
 import time
-import sys
 
 import gpiozero
 

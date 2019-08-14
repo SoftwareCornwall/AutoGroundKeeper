@@ -27,8 +27,8 @@ class TankAlarm:
             else:
                 if self._config is not None:
                     self._red.blink(background=True,
-                                      on_time=self._config['tank_led_blink'],
-                                      off_time=self._config['tank_led_blink'])
+                                    on_time=self._config['tank_led_blink'],
+                                    off_time=self._config['tank_led_blink'])
                 else:
                     self._red.blink(background=True)
                 self._green.off()
