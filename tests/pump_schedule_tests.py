@@ -47,9 +47,10 @@ class TestPumpSchedule(unittest.TestCase):
         moisture_sensor = MockSensor(1)
 
         start_moisture_level = moisture_sensor.get_moisture_a2d()
-
-        with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
-            pump_sch._config.diable_reload = True
+        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor)
+        water_schedule.status_level = 1
+        with water_schedule as pump_sch:
+            pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
             (pump_sch.
              enable_pump_until_moisture_sencor_is_saturated_for_duration())
@@ -64,7 +65,7 @@ class TestPumpSchedule(unittest.TestCase):
         start_moisture_level = moisture_sensor.get_moisture_a2d()
 
         with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
-            pump_sch._config.diable_reload = True
+            pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
             pump_sch._config.data["water_detected_timeout"] = 0.1
             (pump_sch.
@@ -76,8 +77,10 @@ class TestPumpSchedule(unittest.TestCase):
     def test_pump_starts(self):
         moisture_sensor = MockSensor(1)
 
-        with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
-            pump_sch._config.diable_reload = True
+        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor)
+        water_schedule.status_level = 1
+        with water_schedule as pump_sch:
+            pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
             self.assertEqual(1, pump_sch.pump.pump.value)
             (pump_sch.
@@ -87,7 +90,7 @@ class TestPumpSchedule(unittest.TestCase):
         moisture_sensor = MockSensor(1)
 
         with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
-            pump_sch._config.diable_reload = True
+            pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
             pump = pump_sch.pump
             (pump_sch.

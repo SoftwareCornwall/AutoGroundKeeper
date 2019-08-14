@@ -16,6 +16,7 @@ class Watering_Schedule():
         self.timeout = 0
         self.pumping_duration = 0
         self.update_from_config()
+        self.pumping_allowed = True
 
     def update_from_config(self):
         self.water_thresshold = self._config.data[
