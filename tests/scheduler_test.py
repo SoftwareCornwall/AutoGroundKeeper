@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
+import scheduler
 import unittest
 import time
-
-import scheduler
 
 
 class CallRecording:
@@ -42,9 +41,5 @@ class TestScheduler(unittest.TestCase):
         self.assertEqual(0, len(self.schedule.schedule))
 
 
-def test():
-    unittest.main()
-
-
 if __name__ == '__main__':
-    test()
+    unittest.main()

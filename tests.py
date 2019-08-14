@@ -15,7 +15,6 @@ import pump_control
 import pump_schedule
 import sensor_control
 import tank_alarm
-
 import csv_recording
 
 
@@ -24,9 +23,9 @@ def enable_test_time_config(conf):
     disable reload ing config handler to prevent the settings from updateing :D
     @param conf:    config dict
     '''
-    conf.data["interval"] = 2
-    conf.data["water_pumping_duration"] = 0.5
-    conf.data["water_not_detected_thresshold"] = 2
+    conf.data["interval"] = 1
+    conf.data["water_pumping_duration"] = 0.05
+    conf.data["water_not_detected_thresshold"] = 1
     conf.data["water_detected_timeout"] = 2
 
 
@@ -126,6 +125,22 @@ class TestPumpSchedule(unittest.TestCase):
 
         self.assertTrue(moisture_sensor.get_moisture_a2d()
                         > start_moisture_level)
+
+    def test_water_not_recived_by_sensor__timedout(self):
+
+        moisture_sensor = MockSensor(10)
+
+        start_moisture_level = moisture_sensor.get_moisture_a2d()
+
+        with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
+            pump_sch._config.diable_reload = True
+            enable_test_time_config(pump_sch._config)
+            pump_sch._config.data["water_detected_timeout"] = 0.1
+            (pump_sch.
+             enable_pump_until_moisture_sencor_is_saturated_for_duration())
+
+        self.assertFalse(moisture_sensor.get_moisture_a2d()
+                         > start_moisture_level)
 
     def test_pump_starts(self):
         moisture_sensor = MockSensor(1)
