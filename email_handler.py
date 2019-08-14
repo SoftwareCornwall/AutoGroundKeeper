@@ -10,22 +10,20 @@ import subprocess
 import re
 
 
-
 class EmailHandler:
     def __init__(self, config):
         self._config = config
-    
-    
+
     @staticmethod
     def mxlookup(domain):
         try:
-            data = subprocess.getoutput('host '+domain)
-            data = re.findall('mail is handled by (.*?) (.*?)\n', data+'\n')
+            data = subprocess.getoutput('host ' + domain)
+            data = re.findall('mail is handled by (.*?) (.*?)\n', data + '\n')
             return min([int(i[0]), i[1]] for i in data)[1]
         except ValueError:
             pass
         return domain
-    
+
     @staticmethod
     def send_email(rcpttos, fromaddr, fromname, subject, body, attachments):
         mimeapps = []
@@ -33,7 +31,8 @@ class EmailHandler:
             try:
                 with open(f, 'rb') as cfile:
                     app = MIMEApplication(cfile.read())
-                    app['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
+                    app['Content-Disposition'] = 'attachment; filename="%s"' % basename(
+                        f)
                     mimeapps.append(app)
             except Exception as error:
                 print(error)
@@ -42,7 +41,7 @@ class EmailHandler:
         for toaddr in rcpttos:
             try:
                 server = EmailHandler.mxlookup(toaddr.split('@')[1])
-                addrlist[server] = addrlist.get(server, [])+[toaddr]
+                addrlist[server] = addrlist.get(server, []) + [toaddr]
             except IndexError:
                 print('Invalid email:', toaddr)
         print('Looked up addresses')
