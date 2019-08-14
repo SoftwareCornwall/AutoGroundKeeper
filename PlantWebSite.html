@@ -1,36 +1,93 @@
 <!DOCTYPE html>
 <html>
+
+<style>
+.btn-group button {
+  background-color: #4CAF50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 50%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+}
+
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
+</style>
+
 <Head >
 <Title>
 Plant Portal
 </Title>
 </Head>
-<body>
+<body style="background-color:powderblue;">
 <h1>
 Plant Information
 </h1>
-<button type="button" onclick="addpic()">Plant 1, 100, 300, location</button>
+<h2> My Plants <h2>
+<div id = "my_plants" class="btn-group">
+<button id = "plant1" onclick="addpic(this.id)">Plant 1, 100, 300, location, addpicture</button>
+<button id = "plant2" onclick="update_graphs(this.id)">Plant 2 remove picture</button>
+</div>
 <script>
-function addtext() {
-  var node = document.createElement("p");
-  var textnode = document.createTextNode("water");
-  node.appendChild(textnode);
-  document.getElementById("myList").appendChild(node);
+
+function add_button(plant_id, button_text)
+{
+	var button = document.createElement("button");
+	var location = document.getElementById("my_plants");
+	
+	button.setAttribute('type', 'button');
+	button.setAttribute('value', button_text);
+	button.setAttribute('class', 'btn-group');
+	button.setAttribute('id', plant_id);
+	
+	location.appendChild(button);
 }
-function addpic()
+
+function update_graphs(id_of_plant)
+{
+		//Run python graph.py to create 
+		while (document.getElementById("graphs_image") != null)
+		{
+			var graph = document.getElementById("graphs_image");
+			document.body.removeChild(graph);
+		}
+
+}
+
+function addtext(text)
+ {
+  var node = document.createElement("p");
+  var textnode = document.createTextNode(text);
+  node.appendChild(textnode);
+  document.body.appendChild(node);
+}
+function addpic(picture)
 {
 	var img = document.createElement("IMG");
-    img.setAttribute("src", "BatteryPack.JPG");
-    img.setAttribute("width", "604");
-    img.setAttribute("height", "228");
-	var location = document.getElementById("graphs");
-    location.appendChild(img);
-
-
-
+    img.setAttribute("src", picture);
+    img.setAttribute("width", "1050");
+    img.setAttribute("height", "375");
+	img.setAttribute("id", "graphs_image")
+	var location = document.getElementById("graphs_section");
+    document.body.appendChild(img);
 }
+
+function startup()
+{
+	//Read cvs file to display all plants
+}
+
+add_button()
 </script>
-<h2 id = "graphs">Plant Graphs</h2>
+<h2 id = "graphs_section">Plant Graphs</h2>
 <img src="BatteryPack.JPG" width="500" height="333">
 <img src="BatteryPack.JPG" width="500" height="333">
 <p id="myList"> other important text </p>
