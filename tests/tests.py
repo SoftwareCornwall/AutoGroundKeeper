@@ -4,12 +4,10 @@ import sys
 
 sys.path.append('.')
 
-import tests_old
-import sensor_tests
-import scheduler_test
 import csv_tests
-
-
+import scheduler_test
+import sensor_tests
+import tests_old
 
 
 if __name__ == '__main__':
