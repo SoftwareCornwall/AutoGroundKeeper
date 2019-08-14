@@ -6,14 +6,16 @@ class Buzzer:
     def __init__(self):
         self.buzzer_pin = gpiozero.DigitalOutputDevice(5)
         self.status = 0
+        self.old_status = 1
 
     def buzzer_update(self):
-        if self.status == 0:
+        if self.status == 0 and self.old_status != self.status:
             self.buzzer_pin.blink()
             # blink
         elif self.status == 1:
             # don't blink
             self.buzzer_pin.off()
+        self.old_status = self.status
 
     def set_status(self, status):
         self.status = status
