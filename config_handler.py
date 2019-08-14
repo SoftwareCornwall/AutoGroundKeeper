@@ -7,18 +7,19 @@ import os
 
 
 class ConfigHandler:
-    def __init__(self):
-        self.load()
+    def __init__(self, config_file='succulent.json'):
+        self.file_location = config_file
+        self.load(self.file_location)
         self.disable_reload = False
 
-    def load(self):
-        with open('config.json') as file:
+    def load(self, config_file):
+        with open(self.file_location) as file:
             self.data = json.load(file)
         self.last_loaded = time.time()
 
     def reload_if_modified(self):
         if not self.disable_reload and os.path.getmtime(
-                'config.json') > self.last_loaded:
+                self.file_location) > self.last_loaded:
             self.load()
 
     def __getitem__(self, key):
