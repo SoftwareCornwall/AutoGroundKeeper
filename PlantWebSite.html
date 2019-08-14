@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<Head >
+<Title>
+Plant Portal
+</Title>
+</Head>
+<body>
+<h1>
+Plant Information
+</h1>
+<button type="button" onclick="addpic()">Plant 1, 100, 300, location</button>
+<script>
+function addtext() {
+  var node = document.createElement("p");
+  var textnode = document.createTextNode("water");
+  node.appendChild(textnode);
+  document.getElementById("myList").appendChild(node);
+}
+function addpic()
+{
+	var img = document.createElement("IMG");
+    img.setAttribute("src", "BatteryPack.JPG");
+    img.setAttribute("width", "604");
+    img.setAttribute("height", "228");
+	var location = document.getElementById("graphs");
+    location.appendChild(img);
+
+
+
+}
+</script>
+<h2 id = "graphs">Plant Graphs</h2>
+<img src="BatteryPack.JPG" width="500" height="333">
+<img src="BatteryPack.JPG" width="500" height="333">
+<p id="myList"> other important text </p>
+</body>
+</html>
