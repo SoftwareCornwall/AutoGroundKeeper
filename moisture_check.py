@@ -12,7 +12,7 @@ class MoistureCheck:
         self._tank_control = tank_control
 
     def _should_water(self):
-        return (not self._tank_control.is_too_low()
+        return (self._tank_control.tank_level_above_threshold())
                 and (self._moisture_level
                      < self._config['moisture_level_threshold']))
 
