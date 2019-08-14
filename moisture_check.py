@@ -4,14 +4,17 @@ import pump_schedule
 
 
 class MoistureCheck:
-    def __init__(self, config, sensors):
+    def __init__(self, config, sensors, tank_control):
         self._config = config
         self._moisture_sensor = sensors
         self._last_water = time.time()
         self._moisture_level = 0
+        self._tank_control = tank_control
 
     def _should_water(self):
-        return self._moisture_level < self._config['moisture_level_threshold']
+        return (not self._tank_control.is_too_low()
+                and (self._moisture_level
+                     < self._config['moisture_level_threshold']))
 
     def get_next_interval(self):
         if (self._should_water()):

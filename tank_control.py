@@ -10,9 +10,11 @@ class TankControl:
         self._tank_measurement = tank_measurement.TankMeasurement()
         self._tank_alarm = tank_alarm.TankAlarm(config)
 
+    def is_too_low(self):
+        return bool(self._tank_measurement.get_tank_level())
+
     def update(self):
-        self._tank_alarm.set_status(
-            self._tank_measurement.get_tank_level())
+        self._tank_alarm.set_status(self.is_too_low())
 
     def run(self, scheduler, name):
         self.update()

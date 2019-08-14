@@ -30,8 +30,7 @@ class Watering_Schedule():
             "water_detected_timeout"]
 
     def __enter__(self):
-        if self.status_level > 0:
-            self.pump.start_pump()
+        self.pump.start_pump()
         return self
 
     def __exit__(self, type, value, traceback):
