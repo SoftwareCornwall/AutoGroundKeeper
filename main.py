@@ -11,6 +11,7 @@ import moisture_check
 import record_data
 import sensor_control
 import buzzer_control
+import error_control
 
 
 def check_for_stop(schedule, name, config, start_time):
@@ -31,6 +32,7 @@ def main():
     sensors = sensor_control.Sensor()
 
     buzzer = buzzer_control.Buzzer()
+    error_handler = error_control.ErrorControl(buzzer, sensors)
 
     schedule.register_task(
         'stop',
@@ -41,12 +43,12 @@ def main():
          time.time()))
     schedule.add_to_schedule('stop', time.time())  # 86400)
 
-    tank = tank_control.TankControl(buzzer, config)
+    tank = tank_control.TankControl(error_handler, config)
     schedule.register_task(
         'update_leds', tank.run, (schedule, 'update_leds'))
     schedule.add_to_schedule('update_leds', time.time())
 
-    moisture = moisture_check.MoistureCheck(config, sensors, tank, buzzer)
+    moisture = moisture_check.MoistureCheck(config, sensors, tank)
     schedule.register_task(
         'check_moisture_level',
         moisture.run,
@@ -58,6 +60,14 @@ def main():
     schedule.register_task(
         'update_csv', recorder.run, (schedule, 'update_csv'))
     schedule.add_to_schedule('update_csv', time.time())
+
+    schedule.register_task(
+        'check_for_errors',
+        error_handler.run,
+        (schedule,
+         'check_for_errors'))
+    schedule.add_to_schedule('check_for_errors', time.time())
+
     schedule.run_scheduler()
 
 
