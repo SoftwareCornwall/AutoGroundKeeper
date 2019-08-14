@@ -9,6 +9,7 @@ import os
 class ConfigHandler:
     def __init__(self):
         self.load()
+        self.diable_reload = False
 
     def load(self):
         with open('config.json') as file:
@@ -16,7 +17,7 @@ class ConfigHandler:
         self.last_loaded = time.time()
 
     def reload_if_modified(self):
-        if os.path.getmtime('config.json') > self.last_loaded:
+        if not self.disable_reload and os.path.getmtime('config.json') > self.last_loaded:
             self.load()
 
     def __getitem__(self, key):
