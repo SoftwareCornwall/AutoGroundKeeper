@@ -185,49 +185,6 @@ class TestTankAlarm(unittest.TestCase):
         self.assertEqual(1, self.tank_alarm._red.value)
 
 
-class MockSPI():
-    def xfer(self, transmitted_data):
-        self.transmitted = transmitted_data
-        return [0, 0]
-
-
-class TestMoistureSensorInOut(unittest.TestCase):
-    def setUp(self):
-        self.interp = sensor_control.Sensor()
-        self.interp.MCP3002 = MockSPI()
-
-    def test_data_is_converted_correctly(self):
-        mock_data = [0b00000010, 0b11101011]
-        self.assertEqual(0b1011101011, self.interp.convert_data(mock_data))
-
-    def test_moisture_reading_is_taken_from_channel_0(self):
-        self.interp.get_moisture_a2d()
-        self.assertEqual([0x60, 0x00], self.interp.MCP3002.transmitted)
-
-    def test_light_reading_is_taken_from_channel_1(self):
-        self.interp.get_light_a2d()
-        self.assertEqual([0x70, 0x00], self.interp.MCP3002.transmitted)
-
-
-class TestCSV(unittest.TestCase):
-    def test_rows_ordered_by_time_from_CSV_data(self):
-        # most recent readings at end of file
-        CSV_handler = csv_recording.CSVRecording()
-        list_of_datetimes = CSV_handler.read_data(1)
-        self.assertEqual(sorted(list_of_datetimes[0]), list_of_datetimes[0])
-
-    def test_moisture_values_are_in_range_of_0_to_1023(self):
-        CSV_handler = csv_recording.CSVRecording()
-        list_of_datetimes = CSV_handler.read_data(1)
-        self.assertGreaterEqual(1023, sorted(list_of_datetimes[1])[0])
-        self.assertLessEqual(0, sorted(list_of_datetimes[1])[-1])
-
-    def test_light_levels_are_inrange_of_0_to_1023(self):
-        CSV_handler = csv_recording.CSVRecording()
-        list_of_datetimes = CSV_handler.read_data(2)
-        self.assertGreaterEqual(1023, sorted(list_of_datetimes[1])[0])
-        self.assertLessEqual(0, sorted(list_of_datetimes[1])[-1])
-
 
 if __name__ == '__main__':
     unittest.main()

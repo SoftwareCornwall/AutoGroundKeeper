@@ -4,9 +4,13 @@ import sys
 
 sys.path.append('.')
 
-import tests_old
+import csv_tests
 import scheduler_test
+import sensor_tests
+import tests_old
 
 
 if __name__ == '__main__':
-    unittest.main(defaultTest=['scheduler_test', 'tests_old'])
+    unittest.main(defaultTest=['scheduler_test', 'sensor_tests', 'tests_old',
+                               'csv_tests'])
+
