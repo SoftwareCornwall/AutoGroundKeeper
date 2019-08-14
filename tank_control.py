@@ -12,7 +12,7 @@ class TankControl:
         self._buzzer_alarm = buzzer
 
     def update(self):
-        status =  self._tank_measurement.get_tank_level()
+        status = self._tank_measurement.get_tank_level()
         self._tank_alarm.set_status(status)
         self._buzzer_alarm.set_status(status)
 
