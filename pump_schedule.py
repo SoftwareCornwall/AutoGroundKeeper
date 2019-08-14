@@ -57,6 +57,3 @@ class Watering_Schedule():
             time.sleep(self._config.data["water_pumping_duration"])
 
 #        self.pump.stop_pump()
-
-    def run(self):
-        pass
