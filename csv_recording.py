@@ -12,10 +12,8 @@ class CSVRecording:
             self._csvfile, delimiter=',', quotechar='"')
         self.max_time = now = datetime.datetime.now()
         self.min_time = datetime.datetime(
-            now.year if now.month != 1 else now.year -
-            1,
-            now.month -
-            1 if now.month != 1 else 12,
+            now.year if now.month != 1 else now.year - 1,
+            now.month - 1 if now.month != 1 else 12,
             now.day,
             now.hour,
             now.minute,

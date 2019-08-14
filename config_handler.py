@@ -9,7 +9,7 @@ import os
 class ConfigHandler:
     def __init__(self):
         self.load()
-        self.diable_reload = False
+        self.disable_reload = False
 
     def load(self):
         with open('config.json') as file:
