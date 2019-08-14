@@ -2,7 +2,6 @@
 import time
 import config_handler
 import pump_control
-import tank_measurement
 
 
 class Watering_Schedule():
@@ -18,8 +17,6 @@ class Watering_Schedule():
         self.pumping_duration = 0
         self.update_from_config()
         self.pumping_allowed = True
-        self.status = tank_measurement.TankMeasurement()
-        self.status_level = self.status.get_tank_level()
 
     def update_from_config(self):
         self.water_thresshold = self._config.data[
