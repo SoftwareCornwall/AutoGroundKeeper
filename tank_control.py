@@ -8,12 +8,12 @@ import time
 class TankControl:
     def __init__(self, config=None, tank_measure=None, _tank_alarm=None):
 
-        if self.tank_measure is not None:
+        if tank_measure is None:
             self._tank_measurement = tank_measurement.TankMeasurement()
         else:
             self._tank_measurement = tank_measure
 
-        if self._tank_alarm is not None:
+        if _tank_alarm is None:
             self._tank_alarm = tank_alarm.TankAlarm(config)
         else:
             self._tank_alarm = _tank_alarm
