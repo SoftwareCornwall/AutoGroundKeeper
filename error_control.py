@@ -13,7 +13,7 @@ class ErrorControl:
 
     def check_current_moisture_status(self):
         moisture_level = self.moisture_sensor.get_moisture_a2d()
-        if moisture_level < 50 and self.sensor_has_failed == False:
+        if moisture_level < 50 and self.sensor_has_failed is False:
             self.sensor_has_failed = True
             self.time_sensor_failed = time.time()
         elif moisture_level < 50 and self.sensor_has_failed and time.time() - 10 > self.time_sensor_failed:
