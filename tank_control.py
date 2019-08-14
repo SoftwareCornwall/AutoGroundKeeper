@@ -18,13 +18,13 @@ class TankControl:
         else:
             self._tank_alarm = _tank_alarm
 
-
-
     def tank_level_above_threshold(self):
         return self._tank_measurement.get_tank_level() >= 0.2
 
     def update(self):
-        self._tank_alarm.set_status(self.tank_level_above_threshold())
+        status = self.tank_level_above_threshold()
+        self._tank_alarm.set_status(status)
+        self._buzzer_alarm.set_status(status)
 
     def run(self, scheduler, name):
         self.update()
