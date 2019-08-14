@@ -4,11 +4,12 @@ import pump_schedule
 
 
 class MoistureCheck:
-    def __init__(self, config, sensors):
+    def __init__(self, config, sensors, buzzer):
         self._config = config
         self._moisture_sensor = sensors
         self._last_water = time.time()
         self._moisture_level = 0
+        self._buzzer_control = buzzer
 
     def _should_water(self):
         return self._moisture_level < self._config['moisture_level_threshold']
