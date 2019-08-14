@@ -1,5 +1,4 @@
 set -e
-~/.local/bin/coverage run --source='.' ./tests.py 1>/dev/null
 ~/.local/bin/coverage run --source='.' ./tests/tests.py 1>/dev/null
 ~/.local/bin/coverage report -m
 flake8 --ignore=E501,W503 --exclude=tests/tests.py||echo "Please run ./format.sh"

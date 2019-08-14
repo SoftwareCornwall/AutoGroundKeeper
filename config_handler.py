@@ -7,7 +7,7 @@ import os
 
 
 class ConfigHandler:
-    def __init__(self, config_file = 'succulent.json'):
+    def __init__(self, config_file='succulent.json'):
         self.file_location = config_file
         self.load(self.file_location)
         self.disable_reload = False
