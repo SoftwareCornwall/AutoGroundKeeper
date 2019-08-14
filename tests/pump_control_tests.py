@@ -7,7 +7,6 @@ Created on Tue Aug  6 15:38:24 2019
 @author: pi
 """
 import unittest
-import doctest
 
 
 import pump_control
@@ -33,4 +32,3 @@ class TestPumpControl(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    doctest.testmod()
