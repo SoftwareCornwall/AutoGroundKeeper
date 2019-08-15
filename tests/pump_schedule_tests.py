@@ -5,6 +5,7 @@ import time
 import pump_schedule
 import mock_error_controle
 
+
 def enable_test_time_config(conf):
     '''
     disable reload ing config handler to prevent the settings from updateing :D
@@ -47,8 +48,9 @@ class TestPumpSchedule(unittest.TestCase):
 
         start_moisture_level = moisture_sensor.get_moisture_a2d()
         error_contr = mock_error_controle.MockErrorContr()
-        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor, error_contr)
-        
+        water_schedule = pump_schedule.Watering_Schedule(
+            moisture_sensor, error_contr)
+
         with water_schedule as pump_sch:
             pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
@@ -78,8 +80,9 @@ class TestPumpSchedule(unittest.TestCase):
     def test_pump_starts(self):
         moisture_sensor = MockSensor(1)
         error_contr = mock_error_controle.MockErrorContr()
-        
-        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor, error_contr)
+
+        water_schedule = pump_schedule.Watering_Schedule(
+            moisture_sensor, error_contr)
         with water_schedule as pump_sch:
             pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
@@ -90,15 +93,15 @@ class TestPumpSchedule(unittest.TestCase):
     def test_pump_doesnt_start_with_error(self):
         moisture_sensor = MockSensor(1)
         error_contr = mock_error_controle.MockErrorContr(True)
-        
-        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor, error_contr)
+
+        water_schedule = pump_schedule.Watering_Schedule(
+            moisture_sensor, error_contr)
         with water_schedule as pump_sch:
             pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
             self.assertEqual(0, pump_sch.pump.pump.value)
             (pump_sch.
              enable_pump_until_moisture_sencor_is_saturated_for_duration())
-
 
     def test_pump_stops(self):
         moisture_sensor = MockSensor(1)

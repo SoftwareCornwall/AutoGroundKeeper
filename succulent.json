@@ -9,5 +9,7 @@
 "run_duration":null,
 "record_interval":60,
 "tank_led_blink":1,
-"max_moisture_level":800
+"max_moisture_level":800,
+"buzzer_on_time":1,
+"buzzer_off_time":2
 }

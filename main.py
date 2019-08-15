@@ -50,6 +50,11 @@ def main():
         'update_leds', tank.run, (), 0)
 
     schedule.register_task(
+        'check_for_errors',
+        error_handler.run,
+        (), 0)
+
+    schedule.register_task(
         'check_moisture_level',
         moisture.run,
         (), 0)
@@ -57,10 +62,6 @@ def main():
     schedule.register_task(
         'update_csv', recorder.run, (), 0)
 
-    schedule.register_task(
-        'check_for_errors',
-        error_handler.run,
-        (), 0)
 
     schedule.register_task(
         'email_spreadsheet',
@@ -68,6 +69,7 @@ def main():
         ("data.csv"),
         time.time() + 10)
     # all tasks need to be before run scheduler
+
 
     schedule.run_scheduler()
 

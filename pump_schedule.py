@@ -28,18 +28,22 @@ class Watering_Schedule():
             "water_detected_timeout"]
 
     def __enter__(self):
-        if not self.error_controler.get_error_status() :
+        if not self.error_controler.has_error():
             self.pump.start_pump()
             self.is_pumping = True
+        else:
+            print('Found error, so not starting pump')
         return self
 
     def __exit__(self, type, value, traceback):
-        if self.is_pumping :
+        if self.is_pumping:
             self.pump.stop_pump()
+            self.is_pumping = False
 
     def enable_pump_until_moisture_sencor_is_saturated_for_duration(self):
         #        self.pump.start_pump()
-
+        if not self.is_pumping:
+            return
         start_time = time.time()
         start_moist_value = self.moisture_sensor.get_moisture_a2d()
         current_moist_value = self.moisture_sensor.get_moisture_a2d()

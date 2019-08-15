@@ -10,7 +10,9 @@ class Buzzer:
 
     def buzzer_update(self):
         if self.status == 0 and self.old_status != self.status:
-            self.buzzer_pin.blink()
+            self.buzzer_pin.blink(background=True,
+                                  on_time=self._config['buzzer_on_time'],
+                                  off_time=self._config['buzzer_off_time'])
             # blink
         elif self.status == 1:
             # don't blink
