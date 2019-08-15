@@ -28,12 +28,12 @@ def main():
     config = config_handler.ConfigHandler()
     sensors = sensor_control.Sensor()
     buzzer = buzzer_control.Buzzer(config)
-    error_handler = error_control.ErrorControl(buzzer, sensors, config)
+    error_handler = error_control.ErrorControl(buzzer, sensors, config, schedule)
     tank = tank_control.TankControl(config, error_handler=error_handler)
     moisture = moisture_check.MoistureCheck(
         config, sensors, tank, error_handler)
     recorder = record_data.RecordData(config, sensors)
-    email_spread = email_spreadsheet.Email_Spreadsheet(config)
+    email_spread = email_spreadsheet.Email_Spreadsheet(config, schedule)
 
     schedule.register_task('config_reload', config.run,
                            (), 0)
