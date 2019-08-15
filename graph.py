@@ -47,7 +47,6 @@ class GraphDrawer:
             plt.show()
         plt.close(fig)
         gc.collect()
-        print(plt.get_fignums())
 
     def draw_moisture_level_graph(self, name="data.csv", show=False):
         CSV_handler = csv_recording.CSVRecording(name)
@@ -64,7 +63,6 @@ class GraphDrawer:
             plt.show()
         plt.close(fig)
         gc.collect()
-        print(plt.get_fignums())
 
 
 #Graph = GraphDrawer()

@@ -21,9 +21,7 @@ class MoistureCheck:
             self.current_threshold = 'moisture_level_threshold'
 
     def _should_water(self):
-        threshold_check = self._moisture_level < self._config[self.current_threshold]
-        return (self._tank_control.tank_level_above_threshold()
-                and threshold_check)
+        return self._moisture_level < self._config[self.current_threshold]
 
     def get_next_interval(self):
         if (self._should_water()):

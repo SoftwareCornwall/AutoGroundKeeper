@@ -28,12 +28,12 @@ def main():
     config = config_handler.ConfigHandler()
     sensors = sensor_control.Sensor()
     buzzer = buzzer_control.Buzzer(config)
-    error_handler = error_control.ErrorControl(buzzer, sensors)
+    error_handler = error_control.ErrorControl(buzzer, sensors, config)
     tank = tank_control.TankControl(config, error_handler=error_handler)
     moisture = moisture_check.MoistureCheck(
         config, sensors, tank, error_handler)
     recorder = record_data.RecordData(config, sensors)
-    email_spread = email_spreadsheet.Email_Spreadsheet()
+    email_spread = email_spreadsheet.Email_Spreadsheet(config)
 
     schedule.register_task('config_reload', config.run,
                            (), 0)
@@ -66,7 +66,7 @@ def main():
         'email_spreadsheet',
         email_spread.send_email_every_week,
         ("data.csv", ),
-        time.time() + 10)
+        time.time() + 5)
     # all tasks need to be before run scheduler
 
     schedule.run_scheduler()

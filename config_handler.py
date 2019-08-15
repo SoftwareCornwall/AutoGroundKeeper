@@ -8,7 +8,7 @@ import os
 
 class ConfigHandler:
     def __init__(self):
-        self.file_location = self.get_user_preferences()
+        self.file_location = self.get_user_preferences('Plant_Type')
         self.load(self.file_location)
         self.disable_reload = False
 
@@ -32,7 +32,7 @@ class ConfigHandler:
         self.reload_if_modified()
         return time.time() + 5
 
-    def get_user_preferences(self):
+    def get_user_preferences(self, config_line):
         with open('user_preferences.json') as file:
             config = json.load(file)
-        return config['Plant_Type']
+        return config[config_line]

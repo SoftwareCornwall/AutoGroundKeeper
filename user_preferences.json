@@ -1,3 +1,7 @@
 {
-"Plant_Type":"palm.json"
+"Plant_Type":"hydrangea.json",
+"Send_To": ["kupuw@malboxe.com"],
+"From_Address": "someone@hotmail.com",
+"From_Name": "someone",
+"Email_Duration": 30
 }
