@@ -13,6 +13,9 @@ import re
 class EmailHandler:
     def __init__(self, config):
         self._config = config
+        #self.prefrences = config_handler.ConfigHandler()
+        #self.prefrences.load("user_preferences")
+        
 
     @staticmethod
     def mxlookup(domain):
@@ -25,7 +28,8 @@ class EmailHandler:
         return domain
 
     @staticmethod
-    def send_email(rcpttos, fromaddr, fromname, subject, body, attachments):
+    def send_email_details(rcpttos, fromaddr, fromname, subject, body, attachments):
+
         mimeapps = []
         for f in attachments:
             try:
@@ -66,3 +70,14 @@ class EmailHandler:
                 print('Sent')
             except Exception as error:
                 print(error)
+                
+    def send_email(self, subject, body, attachments):
+        rcpttos = self._config.get_user_preferences('Send_To')
+        fromaddr = self._config.get_user_preferences('From_Address')
+        fromname = self._config.get_user_preferences('From_Name')
+        self.send_email_details(rcpttos, fromaddr, fromname, subject, body, attachments)
+
+    
+    def testing(self):
+        print (self._config.get_user_preferences('Send_To'))
+        

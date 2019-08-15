@@ -33,7 +33,7 @@ def main():
     moisture = moisture_check.MoistureCheck(
         config, sensors, tank, error_handler)
     recorder = record_data.RecordData(config, sensors)
-    email_spread = email_spreadsheet.Email_Spreadsheet()
+    email_spread = email_spreadsheet.Email_Spreadsheet(config)
 
     schedule.register_task('config_reload', config.run,
                            (), 0)

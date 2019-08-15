@@ -1,3 +1,6 @@
 {
-"Plant_Type":"palm.json"
+"Plant_Type":"palm.json",
+"Send_To": ["vesu@five-club.com"],
+"From_Address": "someone@hotmail.com",
+"From_Name": "someone"
 }
