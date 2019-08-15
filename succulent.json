@@ -10,5 +10,6 @@
 "record_interval":60,
 "tank_led_blink":1,
 "max_moisture_level":800,
-"buzzer_rate":1
+"buzzer_on_time":1,
+"buzzer_off_time":2
 }
