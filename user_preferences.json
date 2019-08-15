@@ -2,5 +2,6 @@
 "Plant_Type":"palm.json",
 "Send_To": ["vesu@five-club.com"],
 "From_Address": "someone@hotmail.com",
-"From_Name": "someone"
+"From_Name": "someone",
+"Email_Duration": 30
 }

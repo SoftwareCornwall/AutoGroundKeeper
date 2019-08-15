@@ -66,7 +66,7 @@ def main():
         'email_spreadsheet',
         email_spread.send_email_every_week,
         ("data.csv", ),
-        time.time() + 10)
+        time.time() + 5)
     # all tasks need to be before run scheduler
 
     schedule.run_scheduler()
