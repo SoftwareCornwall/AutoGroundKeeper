@@ -11,7 +11,6 @@ import graph
 import time
 
 
-
 class Email_Spreadsheet:
 
     def __init__(self, config):
@@ -27,4 +26,3 @@ class Email_Spreadsheet:
     def send_email_every_week(self, file_name):
         self.send_spreadsheet_and_graph(file_name)
         return time.time() + 10
-

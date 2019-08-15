@@ -5,6 +5,8 @@ Created on Fri Aug  9 12:00:53 2019
 
 @author: pi
 """
+import gc
+
 import matplotlib.pyplot as plt
 import csv_recording
 from matplotlib.dates import DateFormatter
@@ -29,10 +31,10 @@ class GraphDrawer:
         # "+" = plus
         # "D" = diamond
 
-    def draw_light_level_graph(self, name="data.csv"):
+    def draw_light_level_graph(self, name="data.csv", show=False):
         CSV_handler = csv_recording.CSVRecording(name)
         plant_data = CSV_handler.read_data(2)
-        plt.figure(figsize=(14, 5))
+        fig = plt.figure(figsize=(14, 5))
         plt.plot(plant_data[0], plant_data[1], c='b',
                  marker=self.point_shape)  # linewidth = 0
         plt.xlabel('Time', fontsize=16)
@@ -41,12 +43,15 @@ class GraphDrawer:
         plt.gcf().axes[0].xaxis.set_major_formatter(self.formatter)
         plt.grid(True)
         plt.savefig("LightGraph.png", dpi=300)
-        plt.show()
+        if show:
+            plt.show()
+        plt.close(fig)
+        gc.collect()
 
-    def draw_moisture_level_graph(self, name="data.csv"):
+    def draw_moisture_level_graph(self, name="data.csv", show=False):
         CSV_handler = csv_recording.CSVRecording(name)
         plant_data = CSV_handler.read_data(1)
-        plt.figure(figsize=(14, 5))
+        fig = plt.figure(figsize=(14, 5))
         plt.plot(plant_data[0], plant_data[1], c='r', marker=self.point_shape)
         plt.xlabel('Time', fontsize=16)
         plt.ylabel('Moisture Level', fontsize=16)
@@ -54,7 +59,10 @@ class GraphDrawer:
         plt.gcf().axes[0].xaxis.set_major_formatter(self.formatter)
         plt.grid(True)
         plt.savefig("MoistureGraph.png", dpi=300)
-        plt.show()
+        if show:
+            plt.show()
+        plt.close(fig)
+        gc.collect()
 
 
 #Graph = GraphDrawer()
