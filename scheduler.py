@@ -29,7 +29,7 @@ class Scheduler:
             if run_time < time.time():
                 (function, args) = self.tasks[name]
                 next_run_time = function(*args)
-                if isinstance(next_run_time, int):
+                if isinstance(next_run_time, (int, float)):
                     self.schedule.add((name, next_run_time))
                 tasks_to_remove.append((name, run_time))
         for item in tasks_to_remove:

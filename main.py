@@ -29,7 +29,8 @@ def main():
     buzzer = buzzer_control.Buzzer()
     error_handler = error_control.ErrorControl(buzzer, sensors)
     tank = tank_control.TankControl(config, error_handler=error_handler)
-    moisture = moisture_check.MoistureCheck(config, sensors, tank, error_handler)
+    moisture = moisture_check.MoistureCheck(
+        config, sensors, tank, error_handler)
     recorder = record_data.RecordData(config, sensors)
 
     schedule.register_task('config_reload', config.run,
@@ -47,17 +48,17 @@ def main():
         'update_leds', tank.run, (), 0)
 
     schedule.register_task(
+        'check_for_errors',
+        error_handler.run,
+        (), 0)
+
+    schedule.register_task(
         'check_moisture_level',
         moisture.run,
         (), 0)
 
     schedule.register_task(
         'update_csv', recorder.run, (), 0)
-
-    schedule.register_task(
-        'check_for_errors',
-        error_handler.run,
-        (), 0)
 
     schedule.run_scheduler()
 
