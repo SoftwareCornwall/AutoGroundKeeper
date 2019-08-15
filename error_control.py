@@ -32,7 +32,7 @@ class ErrorControl:
             self.buzzer_control.set_status(0)
         else:
             self.buzzer_control.set_status(1)
-            
+
     def get_error_status(self):
         if self.moisture_status == 0 or self.tank_status == 0:
             return 0

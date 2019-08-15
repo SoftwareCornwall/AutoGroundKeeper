@@ -6,7 +6,12 @@ import time
 
 
 class TankControl:
-    def __init__(self, config=None, tank_measure=None, _tank_alarm=None, error_handler=None):
+    def __init__(
+            self,
+            config=None,
+            tank_measure=None,
+            _tank_alarm=None,
+            error_handler=None):
 
         if tank_measure is None:
             self._tank_measurement = tank_measurement.TankMeasurement()
