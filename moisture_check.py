@@ -35,7 +35,7 @@ class MoistureCheck:
         self._moisture_level = self._moisture_sensor.get_moisture_a2d()
         water_schedule = pump_schedule.Watering_Schedule
 
-        self._check_current_threshold()
+        # self._check_current_threshold()
 
         if self._should_water():
             self.currently_watering = True
@@ -46,6 +46,8 @@ class MoistureCheck:
                  enable_pump_until_moisture_sencor_is_saturated_for_duration())
         else:
             self.currently_watering = False
+
+        self._check_current_threshold()
 
         wait_time = self.get_next_interval()
         return time.time() + wait_time

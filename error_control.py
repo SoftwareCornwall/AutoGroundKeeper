@@ -2,6 +2,7 @@
 import time
 import email_handler
 
+
 class ErrorControl:
     def __init__(self, buzzer, sensor, config_file):
         self.config = config_file
@@ -48,7 +49,7 @@ class ErrorControl:
             self.buzzer_control.set_status(0)
             #Does not send email more than once every 6 hours
             email = email_handler.EmailHandler(self.config)
-            email.send_email("Error", self.check_error(),[])
+            email.send_email("Error", self.check_error(), [])
         else:
             self.buzzer_control.set_status(1)
 
@@ -61,7 +62,7 @@ class ErrorControl:
         print (self.it_is_dark)
         self.error_update()
         return time.time() + 5
-    
+
     def check_error(self):
         error_string = "The errors are; "
         if self.tank_status == 0:
@@ -72,3 +73,4 @@ class ErrorControl:
             error_string += "there is no light for the plant"
             
         return error_string 
+
