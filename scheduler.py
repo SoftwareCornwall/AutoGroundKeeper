@@ -28,7 +28,11 @@ class Scheduler:
         for (name, run_time) in list(self.schedule):
             if run_time < time.time():
                 (function, args) = self.tasks[name]
-                next_run_time = function(*args)
+                try:
+                    next_run_time = function(*args)
+                except Exception as error:
+                    print('Crashed in task:', name)
+                    raise error
                 if isinstance(next_run_time, (int, float)):
                     self.schedule.add((name, next_run_time))
                 tasks_to_remove.append((name, run_time))
