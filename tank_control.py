@@ -34,6 +34,6 @@ class TankControl:
         if self._buzzer_alarm is not None:
             self._buzzer_alarm.set_tank_status(status)
 
-    def run(self, scheduler, name):
+    def run(self):
         self.update()
-        scheduler.add_to_schedule(name, time.time() + 5)
+        return time.time() + 5

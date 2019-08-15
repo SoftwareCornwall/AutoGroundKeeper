@@ -39,7 +39,7 @@ class ErrorControl:
         else:
             return 1
 
-    def run(self, scheduler, name):
+    def run(self):
         self.check_current_moisture_status()
         self.error_update()
-        scheduler.add_to_schedule(name, time.time() + 5)
+        return time.time() + 5

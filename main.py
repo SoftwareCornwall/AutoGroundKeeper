@@ -14,11 +14,11 @@ import buzzer_control
 import error_control
 
 
-def check_for_stop(schedule, name, config, start_time):
+def check_for_stop(schedule, config, start_time):
     if config['run_duration'] is not None:
         if time.time() > start_time + config['run_duration']:
             schedule.stop_scheduler()
-    schedule.add_to_schedule('stop', time.time() + 5)
+    return time.time() + 5
 
 
 def main():
@@ -39,28 +39,25 @@ def main():
         'stop',
         check_for_stop,
         (schedule,
-         'stop',
          config,
          time.time()))
     schedule.add_to_schedule('stop', 0)  # 86400)
 
     schedule.register_task(
-        'update_leds', tank.run, (schedule, 'update_leds'), 0)
+        'update_leds', tank.run, (), 0)
 
     schedule.register_task(
         'check_moisture_level',
         moisture.run,
-        (schedule,
-         'check_moisture_level'), 0)
+        (), 0)
 
     schedule.register_task(
-        'update_csv', recorder.run, (schedule, 'update_csv'), 0)
+        'update_csv', recorder.run, (), 0)
 
     schedule.register_task(
         'check_for_errors',
         error_handler.run,
-        (schedule,
-         'check_for_errors'), 0)
+        (), 0)
 
     schedule.run_scheduler()
 
