@@ -2,6 +2,7 @@
 import time
 import email_handler
 
+
 class ErrorControl:
     def __init__(self, buzzer, sensor, config_file):
         self.config = config_file
@@ -31,7 +32,7 @@ class ErrorControl:
         if self.has_error():
             self.buzzer_control.set_status(0)
             email = email_handler.EmailHandler(self.config)
-            email.send_email("Error", self.check_error(),[])
+            email.send_email("Error", self.check_error(), [])
         else:
             self.buzzer_control.set_status(1)
 
@@ -42,12 +43,12 @@ class ErrorControl:
         self.check_current_moisture_status()
         self.error_update()
         return time.time() + 5
-    
+
     def check_error(self):
         error_string = "The errors are;"
         if self.tank_status == 0:
             error_string += "the water level in the tank is low,"
         if self.sensor_has_failed:
             error_string += "there is an error with the moister sensor,"
-        
-        return error_string 
+
+        return error_string

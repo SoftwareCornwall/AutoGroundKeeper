@@ -22,7 +22,9 @@ class Email_Spreadsheet:
         email = email_handler.EmailHandler(self._config)
         Graph.draw_light_level_graph(file_name)
         Graph.draw_moisture_level_graph(file_name)
-        email.send_email("Info", "Data on light and moisture of plant", [file_name, "LightGraph.png", "MoistureGraph.png"])
+        email.send_email("Info", "Data on light and moisture of plant", [
+                         file_name, "LightGraph.png", "MoistureGraph.png"])
+
     def send_email_every_week(self, file_name):
         self.send_spreadsheet_and_graph(file_name)
         return time.time() + self._config.get_user_preferences('Email_Duration')
