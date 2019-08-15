@@ -32,6 +32,12 @@ class ErrorControl:
             self.buzzer_control.set_status(0)
         else:
             self.buzzer_control.set_status(1)
+            
+    def get_error_status(self):
+        if self.moisture_status == 0 or self.tank_status == 0:
+            return 0
+        else:
+            return 1
 
     def run(self, scheduler, name):
         self.check_current_moisture_status()
