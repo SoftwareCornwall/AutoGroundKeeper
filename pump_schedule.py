@@ -6,7 +6,7 @@ import pump_control
 
 class Watering_Schedule():
 
-    def __init__(self, moist_sensor):
+    def __init__(self, moist_sensor, error_contr):
         self._config = config_handler.ConfigHandler()
         self.moisture_sensor = moist_sensor
         self.pump = pump_control.Pump()
@@ -16,7 +16,8 @@ class Watering_Schedule():
         self.timeout = 0
         self.pumping_duration = 0
         self.update_from_config()
-        self.pumping_allowed = True
+        self.error_controler = error_contr
+        self.is_pumping = False
 
     def update_from_config(self):
         self.water_thresshold = self._config.data[
@@ -27,11 +28,14 @@ class Watering_Schedule():
             "water_detected_timeout"]
 
     def __enter__(self):
-        self.pump.start_pump()
+        if not self.error_controler.get_error_status() :
+            self.pump.start_pump()
+            self.is_pumping = True
         return self
 
     def __exit__(self, type, value, traceback):
-        self.pump.stop_pump()
+        if self.is_pumping :
+            self.pump.stop_pump()
 
     def enable_pump_until_moisture_sencor_is_saturated_for_duration(self):
         #        self.pump.start_pump()
