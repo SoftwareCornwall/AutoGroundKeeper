@@ -34,8 +34,8 @@ Plant Information
 </h1>
 <h2> My Plants <h2>
 <div id="my_plants" class="btn-group">
-<button id="plant1" onclick="addpic(this.id)">Plant 1, 100, 300, location, addpicture</button>
-<button id="plant2" onclick="update_graphs(this.id)">Plant 2 remove picture</button>
+<button id="1" onclick="update_graphs(this.id)">Plant 1 real plant, addpicture</button>
+<button id="2" onclick="update_graphs(this.id)">Plant 2 fake plant</button>
 </div>
 <h2 >Plant Graphs</h2>
 <div id="graphs_section" ></div>
@@ -59,13 +59,15 @@ function add_button(plant_id, button_text)
 
 function update_graphs(id_of_plant)
 {
-		//Run python graph.py to create 
-		while (document.getElementById("graphs_image") != null)
-		{
-			var graph = document.getElementById("graphs_image");
-			var graph_parent = document.getElementById("graphs_section");
-			graph_parent.removeChild(graph);
-		}
+	//Run python graph.py to create 
+	while (document.getElementById("graphs_image") != null)
+	{
+		var graph = document.getElementById("graphs_image");
+		var graph_parent = document.getElementById("graphs_section");
+		graph_parent.removeChild(graph);
+	}
+	addpic("/home/pi/Desktop/BlueFruitProject/AutoGroundKeeper/FAKEMoistureLevelGraphImage.png")
+	addpic("/home/pi/Desktop/BlueFruitProject/AutoGroundKeeper/FAKELightLevelGraphImage.png")
 
 }
 
@@ -76,6 +78,8 @@ function addtext(text)
   node.appendChild(textnode);
   document.body.appendChild(node);
 }
+
+
 function addpic(picture)
 {
 	var img = document.createElement("IMG");
