@@ -9,6 +9,9 @@ from os.path import basename
 import subprocess
 import re
 
+import socket
+import time
+
 
 class EmailHandler:
     def __init__(self, config):
@@ -21,10 +24,10 @@ class EmailHandler:
         try:
             data = subprocess.getoutput('host ' + domain)
             data = re.findall('mail is handled by (.*?) (.*?)\n', data + '\n')
-            return min([int(i[0]), i[1]] for i in data)[1]
+            return tuple([i[1] for i in sorted(data, key=lambda x: int(x[0]))])
         except ValueError:
             pass
-        return domain
+        return (domain, )
 
     @staticmethod
     def send_email_details(
@@ -54,8 +57,9 @@ class EmailHandler:
             except IndexError:
                 print('Invalid email:', toaddr)
         print('Looked up addresses')
-        for server in addrlist:
-            toaddrs = addrlist[server]
+        success = True
+        for server_list in addrlist:
+            toaddrs = addrlist[server_list]
             msg = MIMEMultipart()
             msg['To'] = ', '.join(toaddrs)
             msg['From'] = email.utils.formataddr((fromname, fromaddr))
@@ -63,30 +67,46 @@ class EmailHandler:
             msg.attach(MIMEText(body))
             for app in mimeapps:
                 msg.attach(app)
-            try:
-                smtp = smtplib.SMTP(server)
-                print('Connected to', server)
+            local_success = False
+            print(','.join(server_list))
+            for server in server_list:
                 try:
-                    smtp.starttls()
-                    print('Started TLS')
-                except Exception as error:
-                    print(error)
-                smtp.send_message(msg)
-                print('Sent')
-            except Exception as error:
-                print(error)
+                    smtp = smtplib.SMTP(server)
+                    print('Connected to', server)
+                    try:
+                        smtp.starttls()
+                        print('Started TLS')
+                    except smtplib.SMTPNotSupportedError as error:
+                        print(error)
+                    smtp.send_message(msg)
+                    print('Sent')
+                    local_success = True
+                    break
+                except socket.gaierror as error:
+                    pass
+            success &= local_success
+        return success
 
-    def send_email(self, subject, body, attachments):
+    def send_email(self, subject, body, attachments, schedule, resend=True):
         rcpttos = self._config.get_user_preferences('Send_To')
         fromaddr = self._config.get_user_preferences('From_Address')
         fromname = self._config.get_user_preferences('From_Name')
-        self.send_email_details(
-            rcpttos,
-            fromaddr,
-            fromname,
-            subject,
-            body,
-            attachments)
+        if not self.send_email_details(
+                rcpttos,
+                fromaddr,
+                fromname,
+                subject,
+                body,
+                attachments) and resend:
+            print('Sending failed, so resending again soon')
+            schedule.register_task(
+                'resend',
+                self.send_email,
+                (subject,
+                 body,
+                 attachments,
+                 schedule),
+                time.time() + 20)
 
     def testing(self):
         print(self._config.get_user_preferences('Send_To'))
