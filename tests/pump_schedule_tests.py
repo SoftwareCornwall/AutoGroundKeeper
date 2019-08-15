@@ -2,9 +2,8 @@
 import unittest
 import time
 
-
 import pump_schedule
-
+import mock_error_controle
 
 def enable_test_time_config(conf):
     '''
@@ -47,8 +46,9 @@ class TestPumpSchedule(unittest.TestCase):
         moisture_sensor = MockSensor(1)
 
         start_moisture_level = moisture_sensor.get_moisture_a2d()
-        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor)
-
+        error_contr = mock_error_controle.MockErrorContr()
+        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor, error_contr)
+        
         with water_schedule as pump_sch:
             pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
@@ -63,8 +63,9 @@ class TestPumpSchedule(unittest.TestCase):
         moisture_sensor = MockSensor(10)
 
         start_moisture_level = moisture_sensor.get_moisture_a2d()
+        error_contr = mock_error_controle.MockErrorContr()
 
-        with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
+        with pump_schedule.Watering_Schedule(moisture_sensor, error_contr) as pump_sch:
             pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
             pump_sch._config.data["water_detected_timeout"] = 0.1
@@ -76,8 +77,9 @@ class TestPumpSchedule(unittest.TestCase):
 
     def test_pump_starts(self):
         moisture_sensor = MockSensor(1)
-
-        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor)
+        error_contr = mock_error_controle.MockErrorContr()
+        
+        water_schedule = pump_schedule.Watering_Schedule(moisture_sensor, error_contr)
         with water_schedule as pump_sch:
             pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
@@ -87,8 +89,9 @@ class TestPumpSchedule(unittest.TestCase):
 
     def test_pump_stops(self):
         moisture_sensor = MockSensor(1)
+        error_contr = mock_error_controle.MockErrorContr()
 
-        with pump_schedule.Watering_Schedule(moisture_sensor) as pump_sch:
+        with pump_schedule.Watering_Schedule(moisture_sensor, error_contr) as pump_sch:
             pump_sch._config.disable_reload = True
             enable_test_time_config(pump_sch._config)
             pump = pump_sch.pump

@@ -17,7 +17,7 @@ class Watering_Schedule():
         self.pumping_duration = 0
         self.update_from_config()
         self.error_controler = error_contr
-        self.is_pumping
+        self.is_pumping = False
 
     def update_from_config(self):
         self.water_thresshold = self._config.data[
@@ -30,7 +30,7 @@ class Watering_Schedule():
     def __enter__(self):
         if not self.error_controler.get_error_status() :
             self.pump.start_pump()
-            is_pumping = True
+            self.is_pumping = True
         return self
 
     def __exit__(self, type, value, traceback):

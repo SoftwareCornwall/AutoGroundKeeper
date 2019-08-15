@@ -48,7 +48,7 @@ def main():
         'update_leds', tank.run, (schedule, 'update_leds'))
     schedule.add_to_schedule('update_leds', time.time())
 
-    moisture = moisture_check.MoistureCheck(config, sensors, tank)
+    moisture = moisture_check.MoistureCheck(config, sensors, tank, error_handler)
     schedule.register_task(
         'check_moisture_level',
         moisture.run,
