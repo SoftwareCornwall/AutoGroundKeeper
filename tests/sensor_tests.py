@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
 import unittest
 import sensor_control
-
-
-class MockSPI():
-    def xfer(self, transmitted_data):
-        self.transmitted = transmitted_data
-        return [0, 0]
+import mock_spi
 
 
 class TestMoistureSensorInOut(unittest.TestCase):
     def setUp(self):
         self.interp = sensor_control.Sensor()
-        self.interp.MCP3002 = MockSPI()
+        self.interp.MCP3002 = mock_spi.MockSPI()
 
     def test_data_is_converted_correctly(self):
         mock_data = [0b00000010, 0b11101011]
