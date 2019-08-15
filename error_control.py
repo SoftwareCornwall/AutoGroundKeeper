@@ -4,7 +4,7 @@ import email_handler
 
 
 class ErrorControl:
-    def __init__(self, buzzer, sensor, config_file):
+    def __init__(self, buzzer, sensor, config_file, schedule):
         self.config = config_file
         self._sensor = sensor
         self.buzzer_control = buzzer
@@ -13,6 +13,8 @@ class ErrorControl:
         self.time_moisture_sensor_failed = None
         self.time_light_sensor_failed = None
         self.it_is_dark = False
+        self.schedule = schedule
+        self.last_email_warning = 0
 
     def check_current_moisture_status(self):
         moisture_level = self._sensor.get_moisture_a2d()
@@ -48,8 +50,10 @@ class ErrorControl:
         if self.has_error():
             self.buzzer_control.set_status(0)
             #Does not send email more than once every 6 hours
-            email = email_handler.EmailHandler(self.config)
-            email.send_email("Error", self.check_error(), [])
+            if time.time() > self.last_email_warning + 6 * 3600:
+                self.last_email_warning = time.time()
+                email = email_handler.EmailHandler(self.config)
+                email.send_email("Error", self.check_error(), [], self.schedule, True)
         else:
             self.buzzer_control.set_status(1)
 
@@ -59,7 +63,6 @@ class ErrorControl:
     def run(self):
         self.check_current_moisture_status()
         self.check_current_light_status()
-        print (self.it_is_dark)
         self.error_update()
         return time.time() + 5
 
