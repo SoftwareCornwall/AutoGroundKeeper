@@ -33,10 +33,15 @@ Plant Portal
 Plant Information
 </h1>
 <h2> My Plants <h2>
-<div id = "my_plants" class="btn-group">
-<button id = "plant1" onclick="addpic(this.id)">Plant 1, 100, 300, location, addpicture</button>
-<button id = "plant2" onclick="update_graphs(this.id)">Plant 2 remove picture</button>
+<div id="my_plants" class="btn-group">
+<button id="plant1" onclick="addpic(this.id)">Plant 1, 100, 300, location, addpicture</button>
+<button id="plant2" onclick="update_graphs(this.id)">Plant 2 remove picture</button>
 </div>
+<h2 >Plant Graphs</h2>
+<div id="graphs_section" ></div>
+<p id="myList"> other important text </p>
+</body>
+<div id="csv_data" style="font-size:10px"></div>
 <script>
 
 function add_button(plant_id, button_text)
@@ -58,7 +63,8 @@ function update_graphs(id_of_plant)
 		while (document.getElementById("graphs_image") != null)
 		{
 			var graph = document.getElementById("graphs_image");
-			document.body.removeChild(graph);
+			var graph_parent = document.getElementById("graphs_section");
+			graph_parent.removeChild(graph);
 		}
 
 }
@@ -78,28 +84,14 @@ function addpic(picture)
     img.setAttribute("height", "375");
 	img.setAttribute("id", "graphs_image")
 	var location = document.getElementById("graphs_section");
-    document.body.appendChild(img);
+    location.appendChild(img);
 
 }
 
-
-function readfile(file_location)
-{
-var data;
-	$.ajax({
-	  type: "GET",  
-	  url: "MyPlants.txt",
-	  dataType: "jsonp",       
-	  success: function(response)  
-	  {
-		data = $.csv.toArrays(response);
-		generateHtmlTable(data);
-	  }   
-	});
-}
 
 function readTextFile(file)
 {
+    var data = [];
     var rawFile = new XMLHttpRequest();
     rawFile.open("GET", file, false);
     rawFile.onreadystatechange = function ()
@@ -109,27 +101,26 @@ function readTextFile(file)
             if(rawFile.status === 200 || rawFile.status == 0)
             {
                 var allText = rawFile.responseText;
-                alert(allText);
+                data = allText.replace(/\,/g, "<br />");
             }
         }
     }
     rawFile.send(null);
+    document.getElementById("csv_data").innerHTML = data;
 }
 
 
 function startup()
 {
-	console.log("Hi")
+	//console.log("Hi")
+	//console.log("Hi")
+	//readTextFile("data.csv")
+	//readfile("data.csv")
 	//Read cvs file to display all plants
 }
 
 
 startup();
-add_button();
 </script>
-<h2 id = "graphs_section">Plant Graphs</h2>
-<!--<img src="BatteryPack.JPG" width="500" height="333">
-<img src="BatteryPack.JPG" width="500" height="333">-->
-<p id="myList"> other important text </p>
-</body>
+
 </html>
