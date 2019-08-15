@@ -26,7 +26,7 @@ class TestMoistureCheck(unittest.TestCase):
         del self._error
         del self._moisture_check
 
-    def test_current_threshold_changes_to_max_when_watering_starts(self):
+    def test_current_threshold_changes_as_expected(self):
         self._config.data["moisture_level_threshold"] = 500
         self._config.data["max_moisture_level"] = 800
 
@@ -39,3 +39,13 @@ class TestMoistureCheck(unittest.TestCase):
         self._moisture_check.run()
         self.assertEqual(
             800, self._moisture_check._config[self._moisture_check.current_threshold])
+        
+        self._sensor.moisture_value = 600
+        self._moisture_check.run()
+        self.assertEqual(
+            800, self._moisture_check._config[self._moisture_check.current_threshold])
+
+        self._sensor.moisture_value = 900
+        self._moisture_check.run()
+        self.assertEqual(
+            500, self._moisture_check._config[self._moisture_check.current_threshold])
