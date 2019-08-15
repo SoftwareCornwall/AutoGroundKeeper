@@ -62,14 +62,12 @@ def main():
     schedule.register_task(
         'update_csv', recorder.run, (), 0)
 
-
     schedule.register_task(
         'email_spreadsheet',
         email_spread.send_email_every_week,
         ("data.csv", ),
         time.time() + 10)
     # all tasks need to be before run scheduler
-
 
     schedule.run_scheduler()
 
