@@ -3,10 +3,11 @@ import gpiozero
 
 
 class Buzzer:
-    def __init__(self):
+    def __init__(self, config):
         self.buzzer_pin = gpiozero.DigitalOutputDevice(5)
         self.status = 0
         self.old_status = 1
+        self._config = config
 
     def buzzer_update(self):
         if self.status == 0 and self.old_status != self.status:
