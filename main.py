@@ -12,6 +12,7 @@ import record_data
 import sensor_control
 import buzzer_control
 import error_control
+import email_spreadsheet
 
 
 def check_for_stop(schedule, config, start_time):
@@ -29,8 +30,10 @@ def main():
     buzzer = buzzer_control.Buzzer()
     error_handler = error_control.ErrorControl(buzzer, sensors)
     tank = tank_control.TankControl(config, error_handler=error_handler)
-    moisture = moisture_check.MoistureCheck(config, sensors, tank, error_handler)
+    moisture = moisture_check.MoistureCheck(
+        config, sensors, tank, error_handler)
     recorder = record_data.RecordData(config, sensors)
+    email_spread = email_spreadsheet.Email_Spreadsheet()
 
     schedule.register_task('config_reload', config.run,
                            (), 0)
@@ -58,6 +61,13 @@ def main():
         'check_for_errors',
         error_handler.run,
         (), 0)
+
+    schedule.register_task(
+        'email_spreadsheet',
+        email_spread.send_email_every_week,
+        ("data.csv"),
+        time.time() + 10)
+    # all tasks need to be before run scheduler
 
     schedule.run_scheduler()
 

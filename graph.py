@@ -40,7 +40,7 @@ class GraphDrawer:
         plt.title('scatter plot - Light vs Time', fontsize=20)
         plt.gcf().axes[0].xaxis.set_major_formatter(self.formatter)
         plt.grid(True)
-        plt.savefig("LightLevelGraphImage.png", dpi=300)
+        plt.savefig("LightGraph.png", dpi=300)
         plt.show()
 
     def draw_moisture_level_graph(self, name="data.csv"):
@@ -53,10 +53,10 @@ class GraphDrawer:
         plt.title('scatter plot - Moisture Level vs Time', fontsize=20)
         plt.gcf().axes[0].xaxis.set_major_formatter(self.formatter)
         plt.grid(True)
-        plt.savefig("MoistureLevelGraphImage.png", dpi=300)
+        plt.savefig("MoistureGraph.png", dpi=300)
         plt.show()
 
 
-Graph = GraphDrawer()
-Graph.draw_light_level_graph("data.csv")
-Graph.draw_moisture_level_graph("data.csv")
+#Graph = GraphDrawer()
+# Graph.draw_light_level_graph("fake_data.csv")
+# Graph.draw_moisture_level_graph("fake_data.csv")
