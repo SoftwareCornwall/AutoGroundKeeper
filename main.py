@@ -28,7 +28,7 @@ def main():
     config = config_handler.ConfigHandler()
     sensors = sensor_control.Sensor()
     buzzer = buzzer_control.Buzzer(config)
-    error_handler = error_control.ErrorControl(buzzer, sensors)
+    error_handler = error_control.ErrorControl(buzzer, sensors, config)
     tank = tank_control.TankControl(config, error_handler=error_handler)
     moisture = moisture_check.MoistureCheck(
         config, sensors, tank, error_handler)

@@ -10,10 +10,11 @@ import sensor_tests
 import scheduler_test
 import csv_tests
 import tank_control_test
+import moisture_check_tests
 
 if __name__ == '__main__':
     unittest.main(defaultTest=['scheduler_test', 'sensor_tests',
                                'pump_control_tests',
                                'csv_tests', 'pump_schedule_tests',
-                               'tank_control_test'])
+                               'tank_control_test','moisture_check_tests'])
 
