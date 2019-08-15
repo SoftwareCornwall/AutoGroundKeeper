@@ -14,59 +14,50 @@ import buzzer_control
 import error_control
 
 
-def check_for_stop(schedule, name, config, start_time):
+def check_for_stop(schedule, config, start_time):
     if config['run_duration'] is not None:
         if time.time() > start_time + config['run_duration']:
             schedule.stop_scheduler()
-    schedule.add_to_schedule('stop', time.time() + 5)
+    return time.time() + 5
 
 
 def main():
     schedule = scheduler.Scheduler()
 
     config = config_handler.ConfigHandler()
-    schedule.register_task('config_reload', config.run,
-                           (schedule, 'config_reload'))
-    schedule.add_to_schedule('config_reload', time.time())
-
     sensors = sensor_control.Sensor()
-
     buzzer = buzzer_control.Buzzer()
     error_handler = error_control.ErrorControl(buzzer, sensors)
+    tank = tank_control.TankControl(config, error_handler=error_handler)
+    moisture = moisture_check.MoistureCheck(config, sensors, tank, error_handler)
+    recorder = record_data.RecordData(config, sensors)
+
+    schedule.register_task('config_reload', config.run,
+                           (), 0)
 
     schedule.register_task(
         'stop',
         check_for_stop,
         (schedule,
-         'stop',
          config,
          time.time()))
-    schedule.add_to_schedule('stop', time.time())  # 86400)
+    schedule.add_to_schedule('stop', 0)  # 86400)
 
-    tank = tank_control.TankControl(config, error_handler=error_handler)
     schedule.register_task(
-        'update_leds', tank.run, (schedule, 'update_leds'))
-    schedule.add_to_schedule('update_leds', time.time())
+        'update_leds', tank.run, (), 0)
 
-    moisture = moisture_check.MoistureCheck(config, sensors, tank, error_handler)
     schedule.register_task(
         'check_moisture_level',
         moisture.run,
-        (schedule,
-         'check_moisture_level'))
-    schedule.add_to_schedule('check_moisture_level', time.time())
+        (), 0)
 
-    recorder = record_data.RecordData(config, sensors)
     schedule.register_task(
-        'update_csv', recorder.run, (schedule, 'update_csv'))
-    schedule.add_to_schedule('update_csv', time.time())
+        'update_csv', recorder.run, (), 0)
 
     schedule.register_task(
         'check_for_errors',
         error_handler.run,
-        (schedule,
-         'check_for_errors'))
-    schedule.add_to_schedule('check_for_errors', time.time())
+        (), 0)
 
     schedule.run_scheduler()
 

@@ -14,7 +14,6 @@ class RecordData:
         light_level = self._sensor.get_light_a2d()
         self._csv_file.add_record(moisture_level, light_level)
 
-    def run(self, scheduler, name):
+    def run(self):
         self.append_current_readings_to_csv()
-        scheduler.add_to_schedule(
-            name, time.time() + self._config["record_interval"])
+        return time.time() + self._config["record_interval"]

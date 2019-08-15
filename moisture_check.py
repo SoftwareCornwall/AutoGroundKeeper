@@ -25,7 +25,7 @@ class MoistureCheck:
         else:
             return self._config['check_frequency']
 
-    def run(self, scheduler, name):
+    def run(self):
         self._moisture_level = self._moisture_sensor.get_moisture_a2d()
         water_schedule = pump_schedule.Watering_Schedule
         if self._should_water():
@@ -35,5 +35,4 @@ class MoistureCheck:
                  enable_pump_until_moisture_sencor_is_saturated_for_duration())
 
         wait_time = self.get_next_interval()
-
-        scheduler.add_to_schedule(name, time.time() + wait_time)
+        return time.time() + wait_time

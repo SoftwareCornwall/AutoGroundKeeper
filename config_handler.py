@@ -28,9 +28,9 @@ class ConfigHandler:
         except KeyError:
             return None
 
-    def run(self, scheduler, name):
+    def run(self):
         self.reload_if_modified()
-        scheduler.add_to_schedule(name, time.time() + 5)
+        return time.time() + 5
 
     def get_user_preferences(self):
         with open('user_preferences.json') as file:
