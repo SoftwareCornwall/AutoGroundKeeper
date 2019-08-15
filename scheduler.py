@@ -15,19 +15,23 @@ class Scheduler:
         self.schedule = set()
         self._keep_running = True
 
-    def register_task(self, name, function, args=()):
+    def register_task(self, name, function, args=(), next_run_time=None):
         self.tasks[name] = (function, args)
+        if next_run_time is not None:
+            self.add_to_schedule(name, next_run_time)
 
     def add_to_schedule(self, name, next_run_time):
         self.schedule.add((name, next_run_time))
 
     def run_tasklist_once(self):
         tasks_to_remove = []
-        for (name, next_run_time) in list(self.schedule):
-            if next_run_time < time.time():
+        for (name, run_time) in list(self.schedule):
+            if run_time < time.time():
                 (function, args) = self.tasks[name]
-                function(*args)
-                tasks_to_remove.append((name, next_run_time))
+                next_run_time = function(*args)
+                if isinstance(next_run_time, int):
+                    self.schedule.add((name, next_run_time))
+                tasks_to_remove.append((name, run_time))
         for item in tasks_to_remove:
             self.schedule.remove(item)
 
