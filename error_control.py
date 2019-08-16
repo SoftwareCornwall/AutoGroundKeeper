@@ -32,7 +32,7 @@ class ErrorControl:
 
     def check_current_light_status(self):
         light_level = self._sensor.get_light_a2d()
-        if light_level < 50:
+        if light_level < 350:
             if self.time_light_sensor_failed is None:
                 self.time_light_sensor_failed = time.time()
                 #Change number to change amount of time LDR needs to be dark
@@ -52,6 +52,7 @@ class ErrorControl:
             #Does not send email more than once every 6 hours
             if time.time() > self.last_email_warning + 6 * 3600:
                 self.last_email_warning = time.time()
+                print('Sending email due to error:', self.check_error())
                 email = email_handler.EmailHandler(self.config)
                 email.send_email("Error", self.check_error(), [], self.schedule, True)
         else:

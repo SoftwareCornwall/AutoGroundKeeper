@@ -22,6 +22,7 @@ class Email_Spreadsheet:
         email = email_handler.EmailHandler(self._config)
         Graph.draw_light_level_graph(file_name)
         Graph.draw_moisture_level_graph(file_name)
+        print('Emailing spreadsheet')
         email.send_email("Info", "Data on light and moisture of plant", [
                          file_name, "LightGraph.png", "MoistureGraph.png"],
                          self.schedule, False)
