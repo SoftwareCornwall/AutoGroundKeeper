@@ -50,7 +50,7 @@ class ErrorControl:
         if self.has_error():
             self.buzzer_control.set_status(0)
             #Does not send email more than once every 6 hours
-            if time.time() > self.last_email_warning + 6 * 3600:
+            if time.time() > self.last_email_warning + 6:
                 self.last_email_warning = time.time()
                 print('Sending email due to error:', self.check_error())
                 email = email_handler.EmailHandler(self.config)
