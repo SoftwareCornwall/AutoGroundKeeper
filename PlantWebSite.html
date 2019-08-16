@@ -35,6 +35,7 @@ Plant Information
 <div id="my_plants" class="btn-group">
 <button id="1" onclick="update_graphs(this.id)">Plant 1 real plant</button>
 <button id="2" onclick="update_graphs(this.id)">Plant 2 fake plant</button>
+<button onclick="refresh_graphs()">Refresh Plant 1</button>
 </div>
 <h2 >Plant Graphs</h2>
 <div id="graphs_section" ></div>
@@ -53,6 +54,14 @@ function add_button(plant_id, button_text)
 	
 	location.appendChild(button);
 }
+
+function refresh_graphs()
+{
+	GraphHTTPRequest("/generate_light_graph.php");
+	GraphHTTPRequest("/generate_moisture_graph.php");
+	update_graphs(1);
+}
+
 function update_graphs(id_of_plant)
 {
 	//Run python graph.py to create 
@@ -63,8 +72,6 @@ function update_graphs(id_of_plant)
 		graph_parent.removeChild(graph);
 	}
 	
-	GraphHTTPRequest("/generate_light_graph.php")
-	GraphHTTPRequest("/generate_moisture_graph.php")
 	
 	if (id_of_plant == 1) //real plant
 	{
@@ -135,7 +142,7 @@ function GraphHTTPRequest(URL)
 function startup()
 {
 	//update_graphs(1);
-	readTextFile("data.csv")
+	//readTextFile("data.csv")
 	
 }
 startup();
