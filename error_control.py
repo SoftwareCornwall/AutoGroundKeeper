@@ -54,7 +54,7 @@ class ErrorControl:
                 self.last_email_warning = time.time()
                 print('Sending email due to error:', self.check_error())
                 email = email_handler.EmailHandler(self.config)
-                email.send_email("Error", self.check_error(), [], self.schedule, True)
+                email.send_email("AutoGroundKeeper -- Error", self.check_error(), [], self.schedule, True)
         else:
             self.buzzer_control.set_status(1)
 
