@@ -7,7 +7,7 @@ import csv
 class CSVRecording:
     def __init__(self, name='data.csv'):
         self.file_location = name
-        self._csvfile = open(self.file_location, 'a')
+        self._csvfile = open(self.file_location, 'a', buffering=1)
         self._csvwriter = csv.writer(
             self._csvfile, delimiter=',', quotechar='"')
         self.max_time = now = datetime.datetime.now()
