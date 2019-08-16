@@ -1,15 +1,152 @@
 <!DOCTYPE html>
-<head>
- <title>GroundKeeperUI</title>
-</head>
-<body>
- <h1>GroundKeeperUI</h1>
- <p>Plant moisture Percetnage: 12%</p>
+<html>
 
-<div class='current_settings'>
- <ul>
-   <li>Moisture threshold: 0.3</li>
-   <li>Moisture threshold: 0.3</li>
- </ul>
+<style>
+.btn-group {
+  background-color: #4CAF50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  width: 50%; /* Set a width if needed */
+  display: block; /* Make the buttons appear below each other */
+}
+.btn-group button:not(:last-child) {
+  border-bottom: none; /* Prevent double borders */
+}
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: #3e8e41;
+}
+</style>
+
+<Head >
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<Title>
+Plant Portal
+</Title>
+</Head>
+<body style="background-color:powderblue;">
+<h1>
+Plant Information
+</h1>
+<h2> My Plants <h2>
+<div id="my_plants" class="btn-group">
+<button id="1" onclick="update_graphs(this.id)">Plant 1 real plant</button>
+<button id="2" onclick="update_graphs(this.id)">Plant 2 fake plant</button>
+<button onclick="refresh_graphs()">Refresh Plant 1</button>
+<a href='/data.csv' target="_blank">Download Spreadsheet(CSV format)</a>
 </div>
+<h2 >Plant Graphs</h2>
+<div id="graphs_section" ></div>
 </body>
+<div id="csv_data" style="font-size:10px"></div>
+<script>
+function add_button(plant_id, button_text)
+{
+	var button = document.createElement("button");
+	var location = document.getElementById("my_plants");
+	
+	button.setAttribute('type', 'button');
+	button.setAttribute('value', button_text);
+	button.setAttribute('class', 'btn-group');
+	button.setAttribute('id', plant_id);
+	
+	location.appendChild(button);
+}
+
+function refresh_graphs()
+{
+	GraphHTTPRequest("/generate_light_graph.php");
+	GraphHTTPRequest("/generate_moisture_graph.php");
+	update_graphs(1);
+}
+
+function update_graphs(id_of_plant)
+{
+	//Run python graph.py to create 
+	while (document.getElementById("graphs_image") != null)
+	{
+		var graph = document.getElementById("graphs_image");
+		var graph_parent = document.getElementById("graphs_section");
+		graph_parent.removeChild(graph);
+	}
+	
+	
+	if (id_of_plant == 1) //real plant
+	{
+		addpic("LightGraph.png")
+		addpic("MoistureGraph.png")
+	}
+	
+	if (id_of_plant == 2) //fake plant
+	{
+		addpic("FAKEMoistureLevelGraphImage.png")
+		addpic("FAKELightLevelGraphImage.png")
+
+	}
+	
+}
+function addtext(text)
+ {
+  var node = document.createElement("p");
+  var textnode = document.createTextNode(text);
+  node.appendChild(textnode);
+  document.body.appendChild(node);
+}
+function addpic(picture)
+{
+	var img = document.createElement("IMG");
+    img.setAttribute("src",picture);
+    img.setAttribute("width", "1050");
+    img.setAttribute("height", "375");
+	img.setAttribute("id", "graphs_image")
+	var location = document.getElementById("graphs_section");
+    location.appendChild(img);
+}
+function readTextFile(file)
+{
+    var data = [];
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                data = allText.replace(/\,/g, "<br />");
+            }
+        }
+    }
+    rawFile.send(null);
+    document.getElementById("csv_data").innerHTML = data;
+}
+function GraphHTTPRequest(URL)
+{
+	try 
+	{
+	var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", URL, false ); // false for synchronous request
+    xmlHttp.send( null );
+    console.log(xmlHttp.responseText);
+	}
+	catch(err) {
+	console.log("Error with sending HTTP request for");
+	console.log(URL)
+	}
+
+
+}
+function startup()
+{
+	//update_graphs(1);
+	//readTextFile("data.csv")
+	update_graphs(1);
+	
+}
+startup();
+</script>
+
+</html>
