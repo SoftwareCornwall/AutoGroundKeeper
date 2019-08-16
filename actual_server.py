@@ -24,7 +24,8 @@ class ExampleHTTPServer(HTTPServer):
                 headers[b'URL'].decode('utf-8'))[0].encode()
             code = b'200 OK'
             headers = {b'Server': b'PyServer/0.1',
-                   b'Content-Type': file_mime_type}
+                   b'Content-Type': file_mime_type,
+                       b'Cache-Control': b'no-store'}
         except FileNotFoundError:
             with open(b'404.html', 'rb') as file:
                 data = file.read()
